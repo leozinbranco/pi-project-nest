@@ -49,7 +49,7 @@ yarn install
 yarn dev
 ```
 
-7. Acesse a aplicação no navegador utilizando o endereço local: `http://localhost:3000`
+7. Acesse a aplicação no navegador utilizando o endereço local: `http://localhost:3002`
 
 ## Contribuição
 
