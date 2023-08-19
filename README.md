@@ -1,73 +1,64 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Projeto Integrador (PI) - FATEC Campinas
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Este é o README do Projeto Integrador (PI), desenvolvido pelos alunos da FATEC Campinas. O objetivo deste projeto é implementar soluções utilizando o framework Nest.js que será utilizado como regra de negócio do projeto em [Next.js](https://github.com/leozinbranco/pi-project)
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Descrição do Projeto
 
-## Description
+O PI "Melhoria de Processos" visa identificar oportunidades de aprimoramento em processos existentes e desenvolver soluções utilizando tecnologias modernas. O projeto é focado em utilizar o framework Nest.js para construir uma aplicação rápida e escalável, a fim de processar dados simples, complexos em prol da entrega de valor para o cliente.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Tecnologias Utilizadas
 
-## Installation
+O projeto é desenvolvido utilizando as seguintes tecnologias:
 
-```bash
-$ yarn install
+- **Nest.js**: Nest.js é um framework para a construção de aplicativos do lado do servidor (backend) em Node.js. Ele é projetado para facilitar o desenvolvimento de aplicativos escaláveis e bem estruturados, seguindo os princípios da arquitetura de software modular e orientada a objetos.
+
+## Configuração do Ambiente
+
+Aqui estão as etapas para configurar o ambiente de desenvolvimento do projeto:
+
+1. Certifique-se de ter o Node.js instalado em sua máquina. Você pode baixar a versão mais recente do Node.js no site oficial: [https://nodejs.org](https://nodejs.org)
+
+Você também precisará do gerenciador de pacotes yarn, que pode ser instalado no site oficial: [https://classic.yarnpkg.com/lang/en/docs/install/#debian-stable](https://classic.yarnpkg.com/lang/en/docs/install/#debian-stable)
+
+
+
+2. Clone o repositório do projeto para sua máquina local utilizando o seguinte comando no terminal:
+
+```
+git clone <url-do-repositorio>
 ```
 
-## Running the app
+3. Navegue até o diretório do projeto:
 
-```bash
-# development
-$ yarn run start
-
-# watch mode
-$ yarn run start:dev
-
-# production mode
-$ yarn run start:prod
+```
+cd nome-do-diretorio
 ```
 
-## Test
+4. Instale as dependências do projeto executando o seguinte comando:
 
-```bash
-# unit tests
-$ yarn run test
 
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
+```
+yarn install
 ```
 
-## Support
+5. Configure as variáveis de ambiente necessárias para a conexão com o banco de dados RDS. Você pode criar um arquivo `.env` na raiz do projeto e definir as variáveis de ambiente necessárias, como credenciais de acesso ao banco de dados, URL de conexão, etc.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+6. Inicie a aplicação em modo de desenvolvimento com o seguinte comando:
 
-## Stay in touch
+```
+yarn dev
+```
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+7. Acesse a aplicação no navegador utilizando o endereço local: `http://localhost:3000`
 
-## License
+## Contribuição
 
-Nest is [MIT licensed](LICENSE).
+Caso deseje contribuir para o projeto, siga as diretrizes de contribuição estabelecidas pela equipe. Você pode enviar suas sugestões, correções ou melhorias através de pull requests.
+
+## Licença
+
+Este projeto está licenciado sob a [MIT License](https://opensource.org/licenses/MIT).
+
+## Contato
+
+Se você tiver alguma dúvida ou precisar de mais informações sobre o projeto, entre em contato!
