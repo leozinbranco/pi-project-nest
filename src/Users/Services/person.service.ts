@@ -1,19 +1,29 @@
-import { Injectable } from '@nestjs/common';
-import { PersonInterface } from '../Interfaces/person.interface';
+import { Injectable,  } from '@nestjs/common';
+import { PersonDto } from '../DTO/person.dto';
 import { BaseService } from '../../base.service';
+import { Repository } from 'typeorm';
+import { Person } from '../Entities/person.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 
 export class PersonService extends BaseService {
 
-    protected readonly table: string = 'Perons';
-
-    createPerson (person: PersonInterface) {
-        console.log(person);
+    constructor(
+        @InjectRepository(Person)
+        protected readonly personRepository: Repository<Person>
+    )
+    {
+        super();
+        super.repository = personRepository;
     }
 
-    updatedPerson (person: PersonInterface) {
-        return this.update(person);
+    createPerson(person: PersonDto) {
+        return this.create(person);
+    }
+
+    searchPerson(personId: number) {
+        return this.search(personId);
     }
 
 }

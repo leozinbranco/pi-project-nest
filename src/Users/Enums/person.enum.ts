@@ -1,4 +1,4 @@
-export enum activeted {
-    Ativo,
-    Desativado
+export enum PersonActiveted {
+    ativo      = 1,
+    desativado = 0
 }

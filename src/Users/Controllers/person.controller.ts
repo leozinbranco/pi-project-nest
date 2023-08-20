@@ -1,17 +1,21 @@
-import { Controller, Get, Post } from "@nestjs/common";
-import { BaseController } from "../../base.controller";
-import { PersonInterface } from "../Interfaces/person.interface";
+import { Body, Controller, Get, Param, Post } from "@nestjs/common";
+import { PersonDto } from "../DTO/person.dto";
+import { PersonService } from "../Services/person.service";
 
-@Controller()
-export class PersonController extends BaseController {
+@Controller('persons')
+export class PersonController {
 
-    @Get('persons') 
-    searchPersons() {
-        return this.searchAll();
+    constructor(
+        private personService: PersonService
+    ){}
+
+    @Get(':id') 
+    searchPerson(@Param() params: {id: number}) {
+        return this.personService.searchPerson(params.id)
     }
 
-    @Post('persons')
-    createPerson(person: PersonInterface) {
-        return this.create(person);
+    @Post()
+    createPerson(@Body() person: PersonDto) {
+        return this.personService.create(person);
     }
 }

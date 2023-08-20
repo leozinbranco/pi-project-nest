@@ -14,4 +14,10 @@ export class Person {
 
     @Column()
     personEmail: string;
+
+    @Column()
+    personAddress: string;
+
+    @Column({default: 1})
+    personActive: number;
 }
