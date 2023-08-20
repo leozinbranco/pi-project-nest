@@ -1,6 +1,6 @@
 import { Controller } from "@nestjs/common";
-import { ClientInterface } from "src/Interfaces/ClientInterface.interface";
-import { BaseService } from "src/Services/BaseService.service";
+import { PersonInterface } from "./Users/Interfaces/person.interface";
+import { BaseService } from "src/base.service";
 
 @Controller()
 export class BaseController {
@@ -13,7 +13,7 @@ export class BaseController {
         return this.baseService.searchAll();
     }
 
-    create(person: ClientInterface) {
+    create(person: PersonInterface) {
         return this.baseService.create(person);
     }
 }
