@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { BaseService } from './base.service';
-import { PersonService } from './Users/Services/PersonService.service';
+import { PersonService } from './Users/Services/person.service';
 import { BaseController } from './base.controller';
-import { PersonController } from './Users/Controllers/PersonController.controller';
+import { PersonController } from './Users/Controllers/person.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 const defaultOptions = {
