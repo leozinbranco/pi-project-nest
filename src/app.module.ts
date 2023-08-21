@@ -1,13 +1,12 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { BaseService } from './base.service';
-import { PersonService } from './Users/Services/person.service';
-import { PersonController } from './Users/Controllers/person.controller';
+import { PersonService } from './users/person.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RequestMiddleware } from './middleware/request.middleware';
-import { Person } from './Users/Entities/person.entity';
-import * as dotenv from 'dotenv';
-
-dotenv.config(); // carregando as variáveis de ambiente para a conexão com o banco de dados
+import { Person } from './users/entities/person.entity';
+import { ServiceOrderModule } from './service-order/service-order.module';
+import { PersonModule } from './users/person.module';
+import { DatabaseModule } from './db/database.module';
 
 @Module({
   imports: [
@@ -21,15 +20,12 @@ dotenv.config(); // carregando as variáveis de ambiente para a conexão com o b
       synchronize: true,
       entities: [Person],
     }),
-    TypeOrmModule.forFeature([Person])
+    TypeOrmModule.forFeature([Person]),
+    ServiceOrderModule,
+    PersonModule,
+    DatabaseModule,
   ],
-  controllers: [
-    PersonController
-  ],
-  providers: [
-    BaseService,
-    PersonService
-  ],
+  providers: [BaseService, PersonService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

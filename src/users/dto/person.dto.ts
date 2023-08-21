@@ -1,5 +1,5 @@
 import { IsEmail, IsNotEmpty, Length, IsEnum, IsString } from "class-validator";
-import { PersonActiveted } from "../Enums/person.enum";
+import { PersonActiveted } from "../enums/person.enum";
 
 export class PersonDto {
     @IsNotEmpty({ message: 'Obrigatório o envio do nome da pessoa!' })
