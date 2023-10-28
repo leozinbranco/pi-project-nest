@@ -1,21 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { SuportDTO } from './DTO/Suport.dto';
+import { Tickets } from '@prisma/client';
 
 @Injectable()
 export class SuportService {
     constructor(private readonly prismaService: PrismaService) {}
 
-    create() {
-        return this.prismaService.empresaClientes.create({
-            data: {
-                razaoSocialEmpresa: 'teste',
-                nomeFantasiaEmpresa: 'teste2',
-                cnpjEmpresa: 'matheusCalvo',
-                emailEmpresa: 'tes4',
-                areaAtuacaoEmpresa: 'teste5',
-                telefoneEmpresa: 'tes3',
-                enderecoEmpresa: 'tes2'
-            }
-        })
+    async create(suportData: Tickets): Promise<Tickets> {
+        return await this.prismaService.tickets.create({
+            data: suportData
+        });
+    }
+
+    async findAll() {
+        return await this.prismaService.tickets.findMany();
+    }
+
+    async find(numTicket: number ) {
+        return await this.prismaService.tickets.findFirst({ where: { numTicket: Number(numTicket) }})
     }
 }
