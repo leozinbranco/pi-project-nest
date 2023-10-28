@@ -36,19 +36,17 @@ export class SuportController {
 
     @Post()
     async create(@Body() suportDTO: Tickets, @Res() res: Response) {
-        //let ticket = await this.suportService.create(suportDTO);
+        let ticket = await this.suportService.create(suportDTO);
 
         if (true) {
             await this.mailService.sendEmailTicket('viniciusdereck39@gmail.com', 'spfc tomou 5', 'index', Number(1151515))
         }
-        return res.json({message: 'email enviado'})
-
-        /*return res.status(HttpStatus.CREATED).json({
+        return res.status(HttpStatus.CREATED).json({
             data: [ { 
                 numTicket: ticket.numTicket
             } ],
             message: `Ticket Criado com sucesso e foi enviado um e-mail no endereço ${ticket.emailContatoTicket}`,
             status: true
-        })*/
+        })
     }
 }
