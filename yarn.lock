@@ -895,9 +895,9 @@
     picocolors "^1.0.0"
     tslib "^2.6.0"
 
-"@prisma/client@5.5.2":
+"@prisma/client@^5.5.2":
   version "5.5.2"
-  resolved "https://registry.npmjs.org/@prisma/client/-/client-5.5.2.tgz"
+  resolved "https://registry.yarnpkg.com/@prisma/client/-/client-5.5.2.tgz#ce6389e7ad9e9cf0fc2a7c6a0032ad2e12a9fd61"
   integrity sha512-54XkqR8M+fxbzYqe+bIXimYnkkcGqgOh0dn0yWtIk6CQT4IUCAvNFNcQZwk2KqaLU+/1PHTSWrcHtx4XjluR5w==
   dependencies:
     "@prisma/engines-version" "5.5.1-1.aebc046ce8b88ebbcb45efe31cbe7d06fd6abc0a"
@@ -3450,7 +3450,7 @@ handlebars@4.7.7:
   optionalDependencies:
     uglify-js "^3.1.4"
 
-handlebars@^4.7.7:
+handlebars@^4.7.7, handlebars@^4.7.8:
   version "4.7.8"
   resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.7.8.tgz#41c42c18b1be2365439188c77c6afae71c0cd9e9"
   integrity sha512-vafaFqs8MZkRrSX7sFVUdo3ap/eNiLnb4IakshzvP56X5Nr1iGKAIqdX6tMlm6HcNRIkr6AxO5jFEoJzzpT8aQ==

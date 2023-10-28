@@ -11,24 +11,25 @@ datasource db {
 }
 
 model EmpresaClientes {
-  codEmpresa          Int           @id @default(autoincrement())
-  razaoSocialEmpresa  String        @db.VarChar(25)
-  nomeFantasiaEmpresa String        @db.VarChar(35)
-  cnpjEmpresa         String        @unique @db.VarChar(14)
-  emailEmpresa        String        @db.VarChar(50)
-  areaAtuacaoEmpresa  String        @db.VarChar(20)
-  telefoneEmpresa     String        @db.VarChar(15)
-  enderecoEmpresa     String        @db.VarChar(75)
+  codEmpresa          Int            @id @default(autoincrement())
+  razaoSocialEmpresa  String         @db.VarChar(25)
+  nomeFantasiaEmpresa String         @db.VarChar(35)
+  cnpjEmpresa         String         @unique @db.VarChar(14)
+  emailEmpresa        String         @db.VarChar(50)
+  areaAtuacaoEmpresa  String         @db.VarChar(20)
+  telefoneEmpresa     String         @db.VarChar(15)
+  enderecoEmpresa     String         @db.VarChar(75)
   usuariosAdm         UsuariosAdm[]
-  EmpresaTicket       Tickets[]     @relation("EmpresaTicket")
-  CnpjTicket          Tickets[]     @relation("CnpjTicket")
+  EmpresaOs           OrdemServico[]
+  EmpresaTicket       Tickets[]      @relation("EmpresaTicket")
+  CnpjTicket          Tickets[]      @relation("CnpjTicket")
 }
 
 model UsuariosAdm {
   codUsuario        Int             @id @default(autoincrement())
   nomeUsuario       String          @db.VarChar(20)
   cpfUsuario        String          @db.VarChar(11)
-  telefoneUsuario   String?
+  telefoneUsuario   String?         @db.VarChar(11)
   emailUsuario      String          @db.VarChar(50)
   senhaUsuario      String          @db.VarChar(8)
   empresaUsuario    EmpresaClientes @relation(fields: [codEmpresaUsuario], references: [codEmpresa])
@@ -37,19 +38,32 @@ model UsuariosAdm {
 
 model Tickets {
   numTicket             Int      @id @default(autoincrement())
-  nomeClienteTicket     String?  @db.VarChar(50)
   statusTicket          String   @db.VarChar(25)
   tipoTicket            String   @db.VarChar(20)
   descricaoTicket       String   @db.VarChar(200)
   dataAberturaTicket    DateTime
   dataUltimaModTicket   DateTime
   descricaoAjusteTicket String   @db.VarChar(200)
-  observacaoTicket      String   @db.VarChar(200)
-  emailContatoTicket    String   @db.VarChar(50)
-  telContatoTicket      String   @db.VarChar()
 
   empresaTicket     EmpresaClientes @relation("EmpresaTicket", fields: [codEmpresaTicket], references: [codEmpresa])
   cnpjTicket        EmpresaClientes @relation("CnpjTicket", fields: [cnpjEmpresaTicket], references: [cnpjEmpresa])
   cnpjEmpresaTicket String          @db.VarChar(15)
   codEmpresaTicket  Int
+}
+
+model OrdemServico {
+  codOs               Int             @id @default(autoincrement())
+  numOs               String          @db.VarChar(10)
+  statusOs            String          @db.VarChar(25)
+  tipoOs              String          @db.VarChar(20)
+  descricaoAjustesOs  String          @db.VarChar(200)
+  observacaoOs        String          @db.VarChar(200)
+  telContatoOs        String          @db.VarChar(11)
+  emailContatoOs      String          @db.VarChar(50)
+  nomeClienteOs       String          @db.VarChar(50)
+  dataAberturaOs      DateTime
+  dataUltimaModOs     DateTime
+  atributoValidadorOs String          @db.VarChar(15)
+  EmprepsaOs          EmpresaClientes @relation(fields: [codEmpresaOs], references: [codEmpresa])
+  codEmpresaOs        Int
 }

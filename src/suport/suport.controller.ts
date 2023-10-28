@@ -20,20 +20,35 @@ export class SuportController {
         let ticket = await this.suportService.find(params.numTicket);
 
         if (ticket === null) {
-            return res.status(HttpStatus.NOT_FOUND).json({mensage: 'Nenhum ticket foi encontrado'})
+            return res.status(HttpStatus.NOT_FOUND).json({
+                data: [], 
+                mensage: 'Nenhum ticket foi encontrado',
+                status: false
+            })
         }
 
-        return res.status(HttpStatus.FOUND).json(ticket)
+        return res.status(HttpStatus.FOUND).json({
+            data: [ticket],
+            message: 'Ticket encontrado com sucesso',
+            status: true
+        })
     }
 
     @Post()
     async create(@Body() suportDTO: Tickets, @Res() res: Response) {
-        let ticket = await this.suportService.create(suportDTO);
+        //let ticket = await this.suportService.create(suportDTO);
 
-        if (ticket) {
-            await this.mailService.sendEmail(ticket.emailContatoTicket, 'spfc tomou 5', 'santos tomou 7')
+        if (true) {
+            await this.mailService.sendEmailTicket('viniciusdereck39@gmail.com', 'spfc tomou 5', 'index', Number(1151515))
         }
+        return res.json({message: 'email enviado'})
 
-        return res.status(HttpStatus.CREATED).json({message: `Ticket Criado com sucesso e foi enviado um e-mail no endereço ${ticket.emailContatoTicket}`})
+        /*return res.status(HttpStatus.CREATED).json({
+            data: [ { 
+                numTicket: ticket.numTicket
+            } ],
+            message: `Ticket Criado com sucesso e foi enviado um e-mail no endereço ${ticket.emailContatoTicket}`,
+            status: true
+        })*/
     }
 }
