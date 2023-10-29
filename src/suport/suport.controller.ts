@@ -17,17 +17,19 @@ export class SuportController {
 
     @Get(':numTicket')
     async find(@Param() params: { numTicket: number}, @Res() res: Response) {
+        console.log(params.numTicket)
+
         let ticket = await this.suportService.find(params.numTicket);
 
         if (ticket === null) {
             return res.status(HttpStatus.NOT_FOUND).json({
                 data: [], 
-                mensage: 'Nenhum ticket foi encontrado',
+                message: 'Nenhum ticket foi encontrado',
                 status: false
             })
         }
 
-        return res.status(HttpStatus.FOUND).json({
+        return res.status(200).json({
             data: [ticket],
             message: 'Ticket encontrado com sucesso',
             status: true
@@ -37,15 +39,16 @@ export class SuportController {
     @Post()
     async create(@Body() suportDTO: Tickets, @Res() res: Response) {
         let ticket = await this.suportService.create(suportDTO);
+        let enterprise = await this.suportService.findEnterprise(5)
 
-        if (true) {
-            await this.mailService.sendEmailTicket('viniciusdereck39@gmail.com', 'spfc tomou 5', 'index', Number(1151515))
+        if (ticket) {
+            await this.mailService.sendEmailTicket('viniciusdereck39@gmail.com', 'spfc tomou 5', 'index', Number(enterprise.EmpresaTicket[0].numTicket))
         }
         return res.status(HttpStatus.CREATED).json({
             data: [ { 
                 numTicket: ticket.numTicket
             } ],
-            message: `Ticket Criado com sucesso e foi enviado um e-mail no endereço ${ticket.emailContatoTicket}`,
+            message: `Ticket Criado com sucesso para a empresa ${enterprise.nomeFantasiaEmpresa}`,
             status: true
         })
     }

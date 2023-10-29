@@ -20,4 +20,16 @@ export class SuportService {
     async find(numTicket: number ) {
         return await this.prismaService.tickets.findFirst({ where: { numTicket: Number(numTicket) }})
     }
+
+    async findEnterprise(codEnterprise:number) {
+        return await this.prismaService.empresaClientes.findFirst({where: { codEmpresa: codEnterprise}, 
+            include: { 
+                EmpresaTicket: { 
+                    select: { numTicket: true }, 
+                    orderBy: { dataAberturaTicket: 'desc' }, 
+                    take: 1
+                } 
+            }
+        })
+    }
 }
