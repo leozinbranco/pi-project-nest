@@ -39,8 +39,7 @@ export class SuportController {
     @Post()
     async create(@Body() suportDTO: Tickets, @Res() res: Response) {
         let ticket = await this.suportService.create(suportDTO);
-        let enterprise = await this.suportService.findEnterprise(5)
-
+        let enterprise = await this.suportService.findEnterprise(ticket.codEmpresaTicket)
         if (ticket) {
             await this.mailService.sendEmailTicket('viniciusdereck39@gmail.com', 'spfc tomou 5', 'index', Number(enterprise.EmpresaTicket[0].numTicket))
         }
