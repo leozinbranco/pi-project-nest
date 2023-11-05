@@ -7,6 +7,6 @@ import { MailerMailModule } from 'src/mailer-mail/mailer-mail.module';
 @Module({
   imports: [PrismaModule, MailerMailModule],
   providers: [SuportService],
-  controllers: [SuportController]
+  controllers: [SuportController],
 })
 export class SuportModule {}

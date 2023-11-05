@@ -7,9 +7,10 @@ import { PrismaModule } from './prisma/prisma.module';
 import { SuportModule } from './suport/suport.module';
 import { MailerMailModule } from './mailer-mail/mailer-mail.module';
 import { ConfigModule } from '@nestjs/config';
+import { UploadModule } from './upload/upload.module';
 
 @Module({
-  imports: [PrismaModule, SuportModule, MailerMailModule, ConfigModule.forRoot()],
+  imports: [PrismaModule, SuportModule, MailerMailModule, ConfigModule.forRoot(), UploadModule],
   controllers: [
     PersonController
   ],

@@ -1,35 +1,39 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { SuportDTO } from './DTO/Suport.dto';
 import { Tickets } from '@prisma/client';
 
 @Injectable()
 export class SuportService {
-    constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {}
 
-    async create(suportData: Tickets): Promise<Tickets> {
-        return await this.prismaService.tickets.create({
-            data: suportData
-        });
-    }
+  async create(suportData: Tickets): Promise<Tickets> {
+    return await this.prismaService.tickets.create({
+      data: suportData,
+    });
+  }
 
-    async findAll() {
-        return await this.prismaService.tickets.findMany();
-    }
+  async findAll() {
+    return await this.prismaService.tickets.findMany();
+  }
 
-    async find(numTicket: number ) {
-        return await this.prismaService.tickets.findFirst({ where: { numTicket: Number(numTicket) }})
-    }
+  async find(numTicket: number) {
+    return await this.prismaService.tickets.findFirst({
+      where: {
+        numTicket: Number(numTicket),
+      },
+    });
+  }
 
-    async findEnterprise(codEnterprise:number) {
-        return await this.prismaService.empresaClientes.findFirst({where: { codEmpresa: codEnterprise}, 
-            include: { 
-                EmpresaTicket: { 
-                    select: { numTicket: true }, 
-                    orderBy: { dataAberturaTicket: 'desc' }, 
-                    take: 1
-                } 
-            }
-        })
-    }
+  async findEnterprise(codEnterprise: number) {
+    return await this.prismaService.empresaClientes.findFirst({
+      where: { codEmpresa: codEnterprise },
+      include: {
+        EmpresaTicket: {
+          select: { numTicket: true },
+          orderBy: { dataAberturaTicket: 'desc' },
+          take: 1,
+        },
+      },
+    });
+  }
 }
