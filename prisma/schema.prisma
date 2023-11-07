@@ -55,15 +55,16 @@ model OrdemServico {
   codOs               Int             @id @default(autoincrement())
   numOs               String          @db.VarChar(10)
   statusOs            String          @db.VarChar(25)
+  tipoObjOs           String          @db.VarChar(25)
   tipoOs              String          @db.VarChar(20)
-  descricaoAjustesOs  String          @db.VarChar(200)
-  observacaoOs        String          @db.VarChar(200)
-  telContatoOs        String          @db.VarChar(11)
-  emailContatoOs      String          @db.VarChar(50)
-  nomeClienteOs       String          @db.VarChar(50)
+  descricaoAjustesOs  String?         @db.VarChar(200)
+  observacaoOs        String?         @db.VarChar(200)
+  telContatoOs        String?         @db.VarChar(11)
+  emailContatoOs      String?         @db.VarChar(50)
+  nomeClienteOs       String?         @db.VarChar(50)
   dataAberturaOs      DateTime
   dataUltimaModOs     DateTime
-  atributoValidadorOs String          @db.VarChar(15)
-  EmprepsaOs          EmpresaClientes @relation(fields: [codEmpresaOs], references: [codEmpresa])
+  atributoValidadorOs String?         @db.VarChar(15)
+  EmpresaOs           EmpresaClientes @relation(fields: [codEmpresaOs], references: [codEmpresa])
   codEmpresaOs        Int
 }

@@ -39,39 +39,45 @@ export class UploadController {
           const rowFile = row.split('\n');
           rowFile.forEach((index) => {
             if (index.length > 0) {
-              rows.push(index);
+              const numberColumns = index.split(',').length;
+              if (numberColumns > 11) {
+                return res.status(HttpStatus.BAD_REQUEST).json({
+                  data: [],
+                  message: 'O número de colunas deve ser igual a 11!',
+                  status: false,
+                });
+              }
+              rows.push(index.split(','));
             }
           });
         }
       })
       .on('end', () => {
         rows.splice(0, 1);
-        /* limitando quantidade de orderns de serviço que podem ser enviadas  */
-        if (rows.length >= 10) {
+        try {
+          const serviceOrder = this.uploadService.treatFile(rows);
+          fs.unlink(`./upload/${uploadFile.originalname}`, (err) => {
+            if (err) {
+              return res.status(HttpStatus.NOT_FOUND).json({
+                data: [],
+                message: 'Nenhum arquivo foi encontrado',
+                status: false,
+              });
+            }
+          });
+
+          return res.status(HttpStatus.OK).json({
+            data: serviceOrder,
+            message: 'Upload feito com sucesso',
+            status: false,
+          });
+        } catch (err) {
           return res.status(HttpStatus.BAD_REQUEST).json({
             data: [],
-            message:
-              'O número de Ordens de Serviço deve ser menor ou igual a 10!',
+            message: err.message,
             status: false,
           });
         }
-        /* chamar o service de upload para realizar a inserção dentro do banco de dados  */
-        console.log(rows);
-        fs.unlink(`./upload/${uploadFile.originalname}`, (err) => {
-          if (err) {
-            return res.status(HttpStatus.NOT_FOUND).json({
-              data: [],
-              message: 'Nenhum arquivo foi encontrado',
-              status: false,
-            });
-          }
-        });
       });
-
-    return res.status(HttpStatus.OK).json({
-      data: [],
-      message: 'Upload feito com sucesso',
-      status: false,
-    });
   }
 }
