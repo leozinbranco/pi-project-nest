@@ -8,9 +8,12 @@ import { SuportModule } from './suport/suport.module';
 import { MailerMailModule } from './mailer-mail/mailer-mail.module';
 import { ConfigModule } from '@nestjs/config';
 import { UploadModule } from './upload/upload.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [PrismaModule, SuportModule, MailerMailModule, ConfigModule.forRoot(), UploadModule],
+  imports: [PrismaModule, SuportModule, MailerMailModule, ConfigModule.forRoot(), UploadModule, AuthModule, UsersModule],
   controllers: [
     PersonController
   ],
