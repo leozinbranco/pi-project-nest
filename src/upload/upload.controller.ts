@@ -40,10 +40,10 @@ export class UploadController {
           rowFile.forEach((index) => {
             if (index.length > 0) {
               const numberColumns = index.split(',').length;
-              if (numberColumns > 11) {
+              if (numberColumns > 9) {
                 return res.status(HttpStatus.BAD_REQUEST).json({
                   data: [],
-                  message: 'O número de colunas deve ser igual a 11!',
+                  message: 'O número de colunas deve ser igual a 9!',
                   status: false,
                 });
               }
@@ -52,10 +52,20 @@ export class UploadController {
           });
         }
       })
-      .on('end', () => {
+      .on('end', async () => {
         rows.splice(0, 1);
         try {
-          const serviceOrder = this.uploadService.treatFile(rows);
+          /* realiza a validação de cada linha do meu csv */
+          const promises = rows.map((row) => {
+            return this.uploadService.validateFile(row);
+          });
+          await Promise.all(promises);
+
+          /* Trata cada linha do arquivo e realiza a inserção  */
+          const enterprise = rows.map((row) => {
+            return this.uploadService.treatFile(row);
+          });
+          await Promise.all(enterprise);
           fs.unlink(`./upload/${uploadFile.originalname}`, (err) => {
             if (err) {
               return res.status(HttpStatus.NOT_FOUND).json({
@@ -65,10 +75,9 @@ export class UploadController {
               });
             }
           });
-
-          return res.status(HttpStatus.OK).json({
-            data: serviceOrder,
-            message: 'Upload feito com sucesso',
+          return res.status(HttpStatus.CREATED).json({
+            data: [],
+            message: 'Upload realizado com sucesso',
             status: false,
           });
         } catch (err) {
