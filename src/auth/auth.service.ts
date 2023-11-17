@@ -13,15 +13,15 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signIn(username, pass) {
-    const user = await this.usersService.findOne(username);
+  async signIn(cpf, pass) {
+    const user = await this.usersService.findOne(cpf);
     if (!user) {
       throw new NotFoundException();
     }
-    if (user?.password !== pass) {
+    if (user?.senhaUsuario !== pass) {
       throw new UnauthorizedException();
     }
-    const payload = { sub: user.userId, username: user.username };
+    const payload = { sub: user.codUsuario, username: user.nomeUsuario };
     return {
       access_token: await this.jwtService.signAsync(payload),
     };

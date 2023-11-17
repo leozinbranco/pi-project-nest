@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UploadDto } from './dto/upload.dto';
+import { OrdemServico } from '@prisma/client';
 
 @Injectable()
 export class UploadService {
@@ -8,8 +9,25 @@ export class UploadService {
 
   /* realiza a criação da O.S com base nas informações do arquivo */
   async uploadFile(upload: UploadDto) {
+    const data = new Date();
+    const newOs: OrdemServico = {
+      numOs: upload.numOs,
+      codOs: 123,
+      statusOs: upload.statusOs,
+      tipoOs: upload.tipoOs,
+      tipoObjOs: upload.tipoObjOs,
+      descricaoAjustesOs: upload.descricaoAjustesOs,
+      observacaoOs: upload.observacaoOs,
+      telContatoOs: upload.telContatoOs,
+      emailContatoOs: upload.emailContatoOs,
+      cnpjClienteOs: upload.cnpjClienteOs,
+      dataAberturaOs: data,
+      dataUltimaModOs: data,
+      atributoValidadorOs: 'teste',
+      codEmpresaOs: 123,
+    };
     return await this.prismaService.ordemServico.create({
-      data: upload,
+      data: newOs,
     });
   }
 

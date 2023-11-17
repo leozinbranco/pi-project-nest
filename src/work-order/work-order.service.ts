@@ -1,0 +1,33 @@
+import { Injectable } from '@nestjs/common';
+import { CreateWorkOrderDto } from './dto/create-work-order.dto';
+import { UpdateWorkOrderDto } from './dto/update-work-order.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { GetWorkOrderRequest } from './work-order.controller';
+@Injectable()
+export class WorkOrderService {
+  constructor(private readonly prismaService: PrismaService) {}
+  // create(createWorkOrderDto: CreateWorkOrderDto) {
+  //   return 'This action adds a new workOrder';
+  // }
+
+  async findAll() {
+    return await this.prismaService.ordemServico.findMany();
+  }
+
+  async findOne(input: GetWorkOrderRequest) {
+    return await this.prismaService.ordemServico.findFirst({
+      where: {
+        numOs: input.codOs,
+        telContatoOs: input.pass,
+      },
+    });
+  }
+
+  // update(id: number, updateWorkOrderDto: UpdateWorkOrderDto) {
+  //   return `This action updates a #${id} workOrder`;
+  // }
+
+  // remove(id: number) {
+  //   return `This action removes a #${id} workOrder`;
+  // }
+}

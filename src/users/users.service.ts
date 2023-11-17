@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
-
+import { PrismaService } from 'src/prisma/prisma.service';
+import { UsuariosAdm } from '@prisma/client';
 export type User = {
   userId: number;
   username: string;
@@ -8,20 +9,26 @@ export type User = {
 
 @Injectable()
 export class UsersService {
-  private readonly users = [
-    {
-      userId: 1,
-      username: 'teste',
-      password: 'teste123',
-    },
-    {
-      userId: 2,
-      username: 'outroUsuario',
-      password: 'outraSenha',
-    },
-  ];
+  constructor(private readonly prismaService: PrismaService) {}
 
-  async findOne(username: string): Promise<User | undefined> {
-    return this.users.find((user) => user.username === username);
+  // private readonly users = [
+  //   {
+  //     userId: 1,
+  //     username: '50560442882',
+  //     password: 'teste123',
+  //   },
+  //   {
+  //     userId: 2,
+  //     username: 'outroUsuario',
+  //     password: 'outraSenha',
+  //   },
+  // ];
+
+  async findOne(cpf: string): Promise<UsuariosAdm | undefined> {
+    return await this.prismaService.usuariosAdm.findFirst({
+      where: {
+        cpfUsuario: cpf,
+      },
+    });
   }
 }
