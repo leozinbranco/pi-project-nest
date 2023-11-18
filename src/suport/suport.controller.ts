@@ -51,10 +51,11 @@ export class SuportController {
     );
     if (ticket) {
       await this.mailService.sendEmailTicket(
-        'viniciusdereck39@gmail.com',
-        'spfc tomou 5',
+        'orderFlow@gmail.com',
+        'Ticket de Suporte',
         'index',
         Number(enterprise.EmpresaTicket[0].numTicket),
+        ticket.descricaoAjusteTicket,
       );
     }
     return res.status(HttpStatus.CREATED).json({

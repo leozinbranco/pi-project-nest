@@ -18,12 +18,13 @@ export class AuthService {
     if (!user) {
       throw new NotFoundException();
     }
-    if (user?.senhaUsuario !== pass) {
+    if (user?.senhaUsuario !== String(pass)) {
       throw new UnauthorizedException();
     }
-    const payload = { sub: user.codUsuario, username: user.nomeUsuario };
-    return {
+    //const payload = { sub: user.codUsuario, username: user.nomeUsuario };
+    return user;
+    /*return {
       access_token: await this.jwtService.signAsync(payload),
-    };
+    };*/
   }
 }

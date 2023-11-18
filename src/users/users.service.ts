@@ -29,6 +29,11 @@ export class UsersService {
       where: {
         cpfUsuario: cpf,
       },
+      include: {
+        empresaUsuario: {
+          select: { codEmpresa: true, emailEmpresa: true, cnpjEmpresa: true },
+        },
+      },
     });
   }
 }
