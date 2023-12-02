@@ -12,6 +12,7 @@ export class MailerMailService {
     template: string,
     numTicket: number,
     description: string,
+    obs: string,
   ) {
     const fromBase = process.env.EMAILFROM;
     const image = process.cwd() + '/src/templates/images/slogan.png';
@@ -26,6 +27,7 @@ export class MailerMailService {
       context: {
         numTicket,
         description,
+        obs,
         to,
         date: `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`,
         imageBase64,

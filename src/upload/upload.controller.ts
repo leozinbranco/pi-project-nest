@@ -40,10 +40,10 @@ export class UploadController {
           rowFile.forEach((index) => {
             if (index.length > 0) {
               const numberColumns = index.split(',').length;
-              if (numberColumns > 9) {
+              if (numberColumns > 10) {
                 return res.status(HttpStatus.BAD_REQUEST).json({
                   data: [],
-                  message: 'O número de colunas deve ser igual a 9!',
+                  message: 'O número de colunas deve ser igual a 10!',
                   status: false,
                 });
               }

@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UploadDto } from './dto/upload.dto';
-import { OrdemServico } from '@prisma/client';
 
 @Injectable()
 export class UploadService {
@@ -9,10 +8,10 @@ export class UploadService {
 
   /* realiza a criação da O.S com base nas informações do arquivo */
   async uploadFile(upload: UploadDto) {
+    const enterprise = await this.findEnterprise(upload.cnpjClienteOs);
     const data = new Date();
-    const newOs: OrdemServico = {
+    const newOs = {
       numOs: upload.numOs,
-      codOs: 123,
       statusOs: upload.statusOs,
       tipoOs: upload.tipoOs,
       tipoObjOs: upload.tipoObjOs,
@@ -24,7 +23,7 @@ export class UploadService {
       dataAberturaOs: data,
       dataUltimaModOs: data,
       atributoValidadorOs: 'teste',
-      codEmpresaOs: 123,
+      codEmpresaOs: enterprise.codEmpresa,
     };
     return await this.prismaService.ordemServico.create({
       data: newOs,
@@ -59,12 +58,12 @@ export class UploadService {
       descricaoAjustesOs: row[6],
       observacaoOs: row[7],
       cnpjClienteOs: row[8],
-      telContatoOs: enterprise.telefoneEmpresa,
+      telContatoOs: row[9],
       emailContatoOs: enterprise.emailEmpresa,
       atributoValidadorOs: '',
       EmpresaOs: {
         connect: {
-          codEmpresa: 1,
+          codEmpresa: enterprise.codEmpresa,
         },
       },
     };
@@ -100,6 +99,11 @@ export class UploadService {
     }
     if (row[8].length !== 14) {
       throw new Error('O campo CNPJ deve conter 14 caracteres!');
+    }
+    if (row[9] === '') {
+      throw new Error(
+        'O Telefone do cliente da ordem de serviço é obrigatório!',
+      );
     }
     return row;
   }

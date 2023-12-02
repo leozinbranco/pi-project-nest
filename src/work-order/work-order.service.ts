@@ -13,7 +13,7 @@ export class WorkOrderService {
   async findAll(input: GetWorkOrderRequest) {
     return await this.prismaService.ordemServico.findMany({
       where: {
-        telContatoOs: input.pass,
+        numOs: input.codOs,
       },
     });
   }
@@ -22,7 +22,6 @@ export class WorkOrderService {
     return await this.prismaService.ordemServico.findFirst({
       where: {
         numOs: input.codOs,
-        telContatoOs: input.pass,
       },
     });
   }
