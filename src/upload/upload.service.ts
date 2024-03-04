@@ -9,7 +9,6 @@ export class UploadService {
   /* realiza a criação da O.S com base nas informações do arquivo */
   async uploadFile(upload: UploadDto) {
     const enterprise = await this.findEnterprise(upload.cnpjClienteOs);
-    const data = new Date();
     const newOs = {
       numOs: upload.numOs,
       statusOs: upload.statusOs,
@@ -20,9 +19,9 @@ export class UploadService {
       telContatoOs: upload.telContatoOs,
       emailContatoOs: upload.emailContatoOs,
       cnpjClienteOs: upload.cnpjClienteOs,
-      dataAberturaOs: data,
-      dataUltimaModOs: data,
-      atributoValidadorOs: 'teste',
+      dataAberturaOs: new Date(upload.dataAberturaOs),
+      dataUltimaModOs: new Date(upload.dataUltimaModOs),
+      atributoValidadorOs: upload.atributoValidadorOs,
       codEmpresaOs: enterprise.codEmpresa,
     };
     return await this.prismaService.ordemServico.create({
@@ -50,17 +49,17 @@ export class UploadService {
     const enterprise = await this.findEnterprise(row[8]);
     const os: UploadDto = {
       numOs: row[0],
-      tipoOs: row[1],
-      tipoObjOs: row[2],
-      statusOs: row[3],
-      dataUltimaModOs: row[4],
-      dataAberturaOs: row[5],
+      statusOs: row[1],
+      tipoOs: row[2],
+      tipoObjOs: row[3],
+      dataUltimaModOs: new Date(row[4]),
+      dataAberturaOs: new Date(row[5]),
       descricaoAjustesOs: row[6],
       observacaoOs: row[7],
       cnpjClienteOs: row[8],
       telContatoOs: row[9],
       emailContatoOs: enterprise.emailEmpresa,
-      atributoValidadorOs: '',
+      atributoValidadorOs: row[10],
       EmpresaOs: {
         connect: {
           codEmpresa: enterprise.codEmpresa,
