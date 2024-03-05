@@ -8,7 +8,7 @@ import {
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
-import { UploadService } from './upload.service';
+import { UploadService } from '../../services/upload.service';
 import { Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import multerConfig from './multer-config';

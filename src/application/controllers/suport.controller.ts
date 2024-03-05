@@ -7,8 +7,8 @@ import {
   Res,
   HttpStatus,
 } from '@nestjs/common';
-import { SuportService } from './suport.service';
-import { MailerMailService } from 'src/mailer-mail/mailer-mail.service';
+import { SuportService } from '../../services/suport.service';
+import { MailerMailService } from 'src/adapters/mailer-mail/mailer-mail.service';
 import { Tickets } from '@prisma/client';
 import { Response } from 'express';
 

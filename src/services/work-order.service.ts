@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 // import { CreateWorkOrderDto } from './dto/create-work-order.dto';
 // import { UpdateWorkOrderDto } from './dto/update-work-order.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
-import { GetWorkOrderRequest } from './work-order.controller';
+import { PrismaService } from 'src/adapters/prisma/prisma.service';
+import { GetWorkOrderRequest } from '../application/controllers/work-order.controller';
 @Injectable()
 export class WorkOrderService {
   constructor(private readonly prismaService: PrismaService) {}

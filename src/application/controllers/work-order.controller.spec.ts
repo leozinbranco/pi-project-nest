@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { WorkOrderController } from './work-order.controller';
-import { WorkOrderService } from './work-order.service';
+import { WorkOrderService } from '../../services/work-order.service';
 
 describe('WorkOrderController', () => {
   let controller: WorkOrderController;

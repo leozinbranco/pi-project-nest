@@ -5,7 +5,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { appEnv } from '../shared/app-env';
+import { appEnv } from '../../../shared/app-env';
 import { Request } from 'express';
 
 @Injectable()

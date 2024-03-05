@@ -9,8 +9,8 @@ import {
   UseGuards,
   Query,
 } from '@nestjs/common';
-import { WorkOrderService } from './work-order.service';
-import { AuthGuard } from '../auth/auth.guard';
+import { WorkOrderService } from '../../services/work-order.service';
+import { AuthGuard } from '../guards/auth/auth.guard';
 
 export interface GetWorkOrderRequest {
   codOs: string;

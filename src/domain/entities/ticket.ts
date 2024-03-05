@@ -1,4 +1,4 @@
-export class SuportDTO {
+export class Ticket {
   statusTicket: string;
   tipoTicket: string;
   descricaoTicket: string;
