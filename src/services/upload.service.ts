@@ -24,6 +24,10 @@ export class UploadService {
       atributoValidadorOs: upload.atributoValidadorOs,
       codEmpresaOs: enterprise.codEmpresa,
     };
+
+    /* ao invés de dar sempre um create, realizar um upsert onde a premissa é 
+      realizar um where e com base no where ele vai realizar uma atualização ou uma criação
+    */
     return await this.prismaService.ordemServico.create({
       data: newOs,
     });
@@ -47,6 +51,8 @@ export class UploadService {
   /* formata os dados do arquivo para ser inserido dentro do banco  */
   async treatFile(row: UploadDto) {
     const enterprise = await this.findEnterprise(row[8]);
+
+    /* alterar a forma que está chamando o dado, ao invés de array ser objeto */
     const os: UploadDto = {
       numOs: row[0],
       statusOs: row[1],
@@ -70,6 +76,7 @@ export class UploadService {
   }
 
   /* realiza a validação do arquivo que conter as informações da O.S */
+  /* remover metodo */
   validateFile(row: UploadDto) {
     if (row[0] === '') {
       throw new Error('O número da ordem de serviço é obrigatório!');
