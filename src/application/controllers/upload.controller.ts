@@ -18,6 +18,8 @@ import * as fs from 'fs';
 export class UploadController {
   constructor(private readonly uploadService: UploadService) {}
 
+  /* diminuir a quantidade de if dentro do arquivo */
+
   @Post()
   @UseInterceptors(FileInterceptor('file', multerConfig))
   async uploadFile(
@@ -65,6 +67,7 @@ export class UploadController {
 
           /* Trata cada linha do arquivo e realiza a inserção  */
           const enterprise = rows.map((row) => {
+            /* transformar a row e array para objeto */
             return this.uploadService.treatFile(row);
           });
           await Promise.all(enterprise);
