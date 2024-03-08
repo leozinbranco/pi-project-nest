@@ -57,6 +57,8 @@ export class UploadController {
         try {
           /* realiza a validação de cada linha do meu csv */
           const promises = rows.map((row) => {
+            /* transformar o array em objeto para que a validação ocorra através da tipagem do typescript */
+            /* não chamar o validateFile. excluir arquivo */
             return this.uploadService.validateFile(row);
           });
           await Promise.all(promises);
