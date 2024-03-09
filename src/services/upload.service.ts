@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
-import { UploadDto } from './dto/upload.dto';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { PrismaService } from 'src/adapters/prisma/prisma.service';
+import { UploadDto } from './dtos/upload.dto';
 
 @Injectable()
 export class UploadService {
@@ -8,36 +8,48 @@ export class UploadService {
 
   /* realiza a criação da O.S com base nas informações do arquivo */
   async uploadFile(upload: UploadDto) {
-    const enterprise = await this.findEnterprise(upload.cnpjClienteOs);
-    const newOs = {
-      numOs: upload.numOs,
-      statusOs: upload.statusOs,
-      tipoOs: upload.tipoOs,
-      tipoObjOs: upload.tipoObjOs,
-      descricaoAjustesOs: upload.descricaoAjustesOs,
-      observacaoOs: upload.observacaoOs,
-      telContatoOs: upload.telContatoOs,
-      emailContatoOs: upload.emailContatoOs,
-      cnpjClienteOs: upload.cnpjClienteOs,
-      dataAberturaOs: new Date(upload.dataAberturaOs),
-      dataUltimaModOs: new Date(upload.dataUltimaModOs),
-      atributoValidadorOs: upload.atributoValidadorOs,
-      codEmpresaOs: enterprise.codEmpresa,
-    };
+    /* Busca uma Os dentro da base */
+    const os = await this.prismaService.ordemServico.findFirst({
+      where: {
+        numOs: upload.numOs,
+      },
+    });
 
-    /* ao invés de dar sempre um create, realizar um upsert onde a premissa é 
-      realizar um where e com base no where ele vai realizar uma atualização ou uma criação
-    */
+    /* Atualiza a OS caso encontre pelo número inserido no CSV */
+    if (os) {
+      return await this.prismaService.ordemServico.update({
+        where: {
+          codOs: os.codOs,
+        },
+        data: {
+          ...upload,
+          dataUltimaModOs:
+            upload.dataUltimaModOs === '' ? new Date() : upload.dataUltimaModOs,
+        },
+      });
+    }
+
     return await this.prismaService.ordemServico.create({
-      data: newOs,
+      data: {
+        ...upload,
+        dataUltimaModOs:
+          upload.dataUltimaModOs === '' ? null : upload.dataUltimaModOs,
+      },
     });
   }
 
   /* realiza a busca da informação da empresa pelo CNPJ */
   async findEnterprise(cnpj: string) {
-    return await this.prismaService.empresaClientes.findFirstOrThrow({
+    const enterprise = await this.prismaService.empresaClientes.findFirst({
       where: { cnpjEmpresa: cnpj },
     });
+
+    if (enterprise === null) {
+      throw new InternalServerErrorException(
+        `A empresa que possui o CNPJ ${cnpj} não está cadastrada no sistema`,
+      );
+    }
+    return enterprise;
   }
 
   /* realiza a busca de todas as O.S com o codigo da empresa */
@@ -50,67 +62,22 @@ export class UploadService {
 
   /* formata os dados do arquivo para ser inserido dentro do banco  */
   async treatFile(row: UploadDto) {
-    const enterprise = await this.findEnterprise(row[8]);
+    try {
+      const enterprise = await this.findEnterprise(row.cnpjClienteOs);
 
-    /* alterar a forma que está chamando o dado, ao invés de array ser objeto */
-    const os: UploadDto = {
-      numOs: row[0],
-      statusOs: row[1],
-      tipoOs: row[2],
-      tipoObjOs: row[3],
-      dataUltimaModOs: new Date(row[4]),
-      dataAberturaOs: new Date(row[5]),
-      descricaoAjustesOs: row[6],
-      observacaoOs: row[7],
-      cnpjClienteOs: row[8],
-      telContatoOs: row[9],
-      emailContatoOs: enterprise.emailEmpresa,
-      atributoValidadorOs: row[10],
-      EmpresaOs: {
-        connect: {
-          codEmpresa: enterprise.codEmpresa,
+      /* alterar a forma que está chamando o dado, ao invés de array ser objeto */
+      const os: UploadDto = {
+        ...row,
+        emailContatoOs: enterprise.emailEmpresa,
+        EmpresaOs: {
+          connect: {
+            codEmpresa: enterprise.codEmpresa,
+          },
         },
-      },
-    };
-    await this.uploadFile(os);
-  }
-
-  /* realiza a validação do arquivo que conter as informações da O.S */
-  /* remover metodo */
-  validateFile(row: UploadDto) {
-    if (row[0] === '') {
-      throw new Error('O número da ordem de serviço é obrigatório!');
+      };
+      await this.uploadFile(os);
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
     }
-    if (row[1] === '') {
-      throw new Error('O tipo da ordem de serviço é obrigatório!');
-    }
-    if (row[2] === '') {
-      throw new Error('O tipo de objeto da ordem de serviço é obrigatório!');
-    }
-    if (row[3] === '') {
-      throw new Error('O status da ordem de serviço é obrigatório!');
-    }
-    if (row[4] === '') {
-      throw new Error('A data de cadastro da ordem de serviço é obrigatória!');
-    }
-    if (row[5] === '') {
-      throw new Error(
-        'A data de atualização da ordem de serviço é obrigatória!',
-      );
-    }
-    if (row[8] === '') {
-      throw new Error(
-        'O CNPJ da empresa cliente da ordem de serviço é obrigatório!',
-      );
-    }
-    if (row[8].length !== 14) {
-      throw new Error('O campo CNPJ deve conter 14 caracteres!');
-    }
-    if (row[9] === '') {
-      throw new Error(
-        'O Telefone do cliente da ordem de serviço é obrigatório!',
-      );
-    }
-    return row;
   }
 }
