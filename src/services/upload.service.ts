@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
-import { UploadDto } from './dto/upload.dto';
+import { UploadDto } from './dtos/upload.dto';
+import { PrismaService } from 'src/adapters/prisma/prisma.service';
 
 @Injectable()
 export class UploadService {

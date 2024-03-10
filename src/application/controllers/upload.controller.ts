@@ -11,8 +11,9 @@ import {
 import { UploadService } from '../../services/upload.service';
 import { Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
-import multerConfig from './multer-config';
+// import multerConfig from './multer-config';
 import * as fs from 'fs';
+import multerConfig from '../utils/multer-config';
 
 @Controller('upload')
 export class UploadController {
