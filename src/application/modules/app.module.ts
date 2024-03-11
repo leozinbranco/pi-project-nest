@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { BaseService } from '../../services/base.service';
-import { PersonService } from '../../services/enterprise-client.service';
+import { BaseService } from '../../adapters/services/base.service';
+import { PersonService } from '../../adapters/services/enterprise-client.service';
 import { PersonController } from '../controllers/enterprise-client.controller';
 import { PrismaModule } from '../../adapters/prisma/prisma.module';
 import { SuportModule } from './suport.module';

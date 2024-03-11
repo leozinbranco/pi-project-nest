@@ -1,8 +1,10 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { PersonDto } from '../../services/dtos/enterpriseClient.dto';
-import { PersonService } from '../../services/enterprise-client.service';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { PersonDto } from '../../adapters/services/dtos/enterpriseClient.dto';
+import { PersonService } from '../../adapters/services/enterprise-client.service';
+import { AuthGuard } from '../guards/auth/auth.guard';
 
 @Controller('persons')
+// @UseGuards(AuthGuard)
 export class PersonController {
   constructor(private personService: PersonService) {}
 }

@@ -15,7 +15,6 @@ async function bootstrap() {
     .setTitle('Order Flow API')
     .setDescription('API para controle de ordens de serviço.')
     .setVersion('1.0')
-    .addTag('cats')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

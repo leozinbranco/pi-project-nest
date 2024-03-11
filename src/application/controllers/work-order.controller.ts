@@ -1,15 +1,5 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  UseGuards,
-  Query,
-} from '@nestjs/common';
-import { WorkOrderService } from '../../services/work-order.service';
+import { Controller, Get, UseGuards, Query } from '@nestjs/common';
+import { WorkOrderService } from '../../adapters/services/work-order.service';
 import { AuthGuard } from '../guards/auth/auth.guard';
 
 export interface GetWorkOrderRequest {
@@ -33,11 +23,13 @@ export class WorkOrderController {
   // @UseGuards(AuthGuard)
 
   // ## TODO: Passar query param para body param.
+  // @UseGuards(AuthGuard)
   @Get()
   findOne(@Query('codOs') codOs: string, @Query('pass') pass: string) {
     return this.workOrderService.findOne({ codOs, pass });
   }
 
+  // @UseGuards(AuthGuard)
   @Get('all')
   findMany(@Query('codOs') codOs: string, @Query('pass') pass: string) {
     return this.workOrderService.findAll({ codOs, pass });

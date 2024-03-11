@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 // import { CreateWorkOrderDto } from './dto/create-work-order.dto';
 // import { UpdateWorkOrderDto } from './dto/update-work-order.dto';
 import { PrismaService } from 'src/adapters/prisma/prisma.service';
-import { GetWorkOrderRequest } from '../application/controllers/work-order.controller';
+import { GetWorkOrderRequest } from '../../application/controllers/work-order.controller';
 @Injectable()
 export class WorkOrderService {
   constructor(private readonly prismaService: PrismaService) {}
@@ -22,6 +22,7 @@ export class WorkOrderService {
     return await this.prismaService.ordemServico.findFirst({
       where: {
         numOs: input.codOs,
+        telContatoOs: input.pass,
       },
     });
   }
