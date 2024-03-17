@@ -8,7 +8,7 @@ export class UserAdm {
   })
   @MinLength(11)
   @IsString()
-  cpfCnpj: string;
+  cpf: string;
 
   @ApiProperty({
     example: '12345',

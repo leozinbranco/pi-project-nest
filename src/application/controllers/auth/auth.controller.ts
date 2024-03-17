@@ -19,6 +19,6 @@ export class AuthController {
   })
   @ApiResponse({ status: 401, description: 'Usuário ou senha inválida' })
   async signIn(@Body() user: UserAdm) {
-    return this.authService.signIn(user.cpfCnpj, user.password);
+    return this.authService.signIn(user.cpf, user.password);
   }
 }
