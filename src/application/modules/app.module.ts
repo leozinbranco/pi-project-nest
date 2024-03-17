@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { BaseService } from '../../adapters/services/base.service';
 import { PersonService } from '../../adapters/services/enterprise-client.service';
-import { PersonController } from '../controllers/enterprise-client.controller';
 import { PrismaModule } from '../../adapters/prisma/prisma.module';
 import { SuportModule } from './suport.module';
 import { MailerMailModule } from '../../adapters/mailer-mail/mailer-mail.module';
@@ -22,7 +21,7 @@ import { WorkOrderModule } from './work-order.module';
     UsersModule,
     WorkOrderModule,
   ],
-  controllers: [PersonController],
+  controllers: [],
   providers: [BaseService, PersonService],
 })
 export class AppModule {}

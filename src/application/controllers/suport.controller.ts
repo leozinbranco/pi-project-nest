@@ -21,10 +21,10 @@ export class SuportController {
     private readonly mailService: MailerMailService,
   ) {}
 
-  @Get()
-  async findAll() {
-    return await this.suportService.findAll();
-  }
+  // @Get()
+  // async findAll() {
+  //   return await this.suportService.findAll();
+  // }
 
   // @UseGuards(AuthGuard)
   @Get(':numTicket')

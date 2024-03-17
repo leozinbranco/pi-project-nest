@@ -23,7 +23,7 @@ export class UploadController {
 
   /* diminuir a quantidade de if dentro do arquivo */
 
-  // @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard)
   @Post()
   @UseInterceptors(FileInterceptor('file', multerConfig))
   async uploadFile(
