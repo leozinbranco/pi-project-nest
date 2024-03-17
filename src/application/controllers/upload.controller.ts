@@ -3,6 +3,7 @@ import {
   FileTypeValidator,
   HttpStatus,
   InternalServerErrorException,
+  Param,
   ParseFilePipe,
   Post,
   Res,
@@ -20,9 +21,11 @@ import { UploadDto } from 'src/services/dtos/upload.dto';
 export class UploadController {
   constructor(private readonly uploadService: UploadService) {}
 
-  @Post()
+  @Post(':cod/:user')
   @UseInterceptors(FileInterceptor('file', multerConfig))
   async uploadFile(
+    @Param('cod') cod: number,
+    @Param('user') user: number,
     @UploadedFile(
       new ParseFilePipe({
         validators: [new FileTypeValidator({ fileType: 'csv' })],
@@ -44,12 +47,12 @@ export class UploadController {
               const numberColumns = index.split(',').length;
               const indexArray = index.split(',');
               if (
-                numberColumns > 11 &&
-                index.split(',')[indexArray.length - 1] !== ''
+                numberColumns > 12 &&
+                index.split(';')[indexArray.length - 1] !== ''
               ) {
                 rows.push([]);
               } else {
-                rows.push(index.split(','));
+                rows.push(index.split(';'));
               }
             }
           });
@@ -59,11 +62,26 @@ export class UploadController {
         try {
           rows = rows.slice(1);
           /* Trata cada linha do arquivo e realiza a inserção  */
-          const enterprise = rows.map((row) => {
-            if (row.length > 0) {
-              /* transformar a row e array para objeto */
-              return this.uploadService.treatFile(this.isValidRow(row));
+          const enterprise = rows.map(async (row) => {
+            if (row.length === 0) {
+              throw new InternalServerErrorException(
+                'Nenhum dado identificado para realizar o upload ou o CSV contém mais que 12 colunas!',
+              );
             }
+            /* transformar a row e array para objeto */
+            let diffEnterprise;
+            if (cod !== null) {
+              diffEnterprise = await this.uploadService.findEnterpriseById(
+                cod,
+                row[8],
+              );
+            }
+            if (diffEnterprise) {
+              throw new InternalServerErrorException(
+                `Não é possível realizar o upload de O.S de empresa distintas. CNPJ: ${row[8]}`,
+              );
+            }
+            return this.uploadService.treatFile(this.isValidRow(row));
           });
           await Promise.all(enterprise);
 
@@ -93,6 +111,8 @@ export class UploadController {
 
   private formatRow(row): UploadDto {
     const currentDate = new Date();
+    row[5] = this.validateDate(row[5]);
+    row[4] = this.validateDate(row[4]);
     const newOs = {
       numOs: row[0],
       statusOs: row[1],
@@ -106,9 +126,9 @@ export class UploadController {
       dataUltimaModOs:
         row[5].length > 0
           ? new Date(
-              `${
-                row[5]
-              } ${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`,
+              `${this.validateDate(
+                row[5],
+              )} ${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`,
             )
           : '',
       descricaoAjustesOs: row[6],
@@ -117,6 +137,7 @@ export class UploadController {
       telContatoOs: row[9],
       emailContatoOs: '',
       atributoValidadorOs: row[10],
+      cpfUsuario: row[11],
       EmpresaOs: {
         connect: {
           codEmpresa: 0,
@@ -126,49 +147,72 @@ export class UploadController {
     return newOs;
   }
 
-  private isValidRow(row): UploadDto {
+  private validateDate(date): string {
+    const pattern = /^\d{2}\/\d{2}\/\d{4}$/;
+    if (pattern.test(date)) {
+      const fullDate = date.split('/');
+      const newDate = fullDate[2] + '-' + fullDate[1] + '-' + fullDate[0];
+      return newDate;
+    }
+    return date;
+  }
+
+  private isValidRow(row: UploadDto): UploadDto {
     const newOs = this.formatRow(row);
     if (newOs.numOs.length === 0) {
       throw new InternalServerErrorException(
-        'Necessário inserir um número para a ordem de serviço',
+        'Necessário inserir um número para a ordem de serviço!',
       );
     }
     if (newOs.statusOs.length === 0) {
       throw new InternalServerErrorException(
-        'Necessário inserir o status para a ordem de serviço',
+        'Necessário inserir o status para a ordem de serviço!',
       );
     }
 
     if (newOs.tipoOs.length === 0) {
       throw new InternalServerErrorException(
-        'Necessário inserir o tipo para a ordem de serviço',
+        'Necessário inserir o tipo para a ordem de serviço!',
       );
     }
 
     if (newOs.tipoObjOs.length === 0) {
       throw new InternalServerErrorException(
-        'Necessário inserir a descrição do tipo para a ordem de serviço',
+        'Necessário inserir a descrição do tipo para a ordem de serviço!',
       );
     }
     if (newOs.cnpjClienteOs.length >= 0 && newOs.cnpjClienteOs.length <= 13) {
-      console.log(newOs.cnpjClienteOs);
       throw new InternalServerErrorException(
-        'Necessário inserir o CNPJ da empresa para a ordem de serviço',
+        'Necessário inserir o CNPJ da empresa para a ordem de serviço!',
       );
     }
     const pattern = /^\d{4}-\d{2}-\d{2}$/;
     if (
-      newOs.dataAberturaOs.toString().length === 0 ||
-      pattern.test(newOs.dataAberturaOs.toString())
+      pattern.test(newOs.dataAberturaOs.toString()) ||
+      newOs.dataAberturaOs.toString().length === 0
     ) {
       throw new InternalServerErrorException(
-        'Data vazia ou formato incorreto. Informe no formato AAAA-MM-DD',
+        'Data vazia ou formato incorreto. Informe no formato AAAA-MM-DD!',
       );
     }
     if (pattern.test(newOs.dataUltimaModOs.toString())) {
       throw new InternalServerErrorException(
-        'Data vazia ou formato incorreto. Informe no formato AAAA-MM-DD',
+        'Data vazia ou formato incorreto. Informe no formato AAAA-MM-DD!',
       );
+    }
+    if (
+      !newOs.atributoValidadorOs.includes('S') &&
+      !newOs.atributoValidadorOs.includes('N')
+    ) {
+      throw new InternalServerErrorException(
+        'Necessário inserir o atributo validador para compartilhar as O.S, sendo: S (SIM), N (Não)!',
+      );
+    }
+    if (
+      !newOs.cpfUsuario ||
+      (newOs.cpfUsuario.length >= 0 && newOs.cpfUsuario.length <= 10)
+    ) {
+      throw new InternalServerErrorException('Insira um CPF válido!');
     }
     return newOs;
   }

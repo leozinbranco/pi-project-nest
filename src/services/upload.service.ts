@@ -23,6 +23,8 @@ export class UploadService {
         },
         data: {
           ...upload,
+          cnpjClienteOs: upload.cnpjClienteOs.replace(/.\/\-/g, ''),
+          cpfUsuario: upload.cpfUsuario.replace(/-./g, ''),
           dataUltimaModOs:
             upload.dataUltimaModOs === '' ? new Date() : upload.dataUltimaModOs,
         },
@@ -32,6 +34,8 @@ export class UploadService {
     return await this.prismaService.ordemServico.create({
       data: {
         ...upload,
+        cnpjClienteOs: upload.cnpjClienteOs.replace(/.\/\-/g, ''),
+        cpfUsuario: upload.cpfUsuario.replace(/-./g, ''),
         dataUltimaModOs:
           upload.dataUltimaModOs === '' ? null : upload.dataUltimaModOs,
       },
@@ -50,6 +54,17 @@ export class UploadService {
       );
     }
     return enterprise;
+  }
+
+  /* realiza a busca de uma empresa para saber se ela é diferente da logada no sistema */
+  async findEnterpriseById(cod: number, cnpj: string) {
+    const enterprise = await this.prismaService.empresaClientes.findFirst({
+      where: { codEmpresa: Number(cod) },
+    });
+
+    if (enterprise.cnpjEmpresa !== cnpj) {
+      return cnpj;
+    }
   }
 
   /* realiza a busca de todas as O.S com o codigo da empresa */

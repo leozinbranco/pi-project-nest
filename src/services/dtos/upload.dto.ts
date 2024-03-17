@@ -53,7 +53,12 @@ export class UploadDto {
   emailContatoOs: string;
 
   @IsString()
-  atributoValidadorOs: '';
+  @Length(1)
+  atributoValidadorOs: string;
+
+  @IsString()
+  @Length(11)
+  cpfUsuario: string;
   EmpresaOs: {
     connect: {
       codEmpresa: number;

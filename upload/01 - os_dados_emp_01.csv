@@ -1,0 +1,9 @@
+Número da OS,Status,Tipo,Descrição,Data de Abertura,Data da Última Modificação,Descrição do Ajuste,Observação,CNPJ Empresa,Telefone de Contato,Atributo Validador,CPF Usuario
+OS2024011,Concluído,Reparo,Troca de tela de celular,2024-03-01,2024-03-03,Troca de tela realizada com sucesso.,Sem observações,49385654000139,11987654321,S,48689674525
+OS2024002,Aberta,Orçamento,Problema de conexão de internet,2024-03-02,2024-03-03,Identificação de problema de roteador.,Nenhuma observação,49385654000139,11987654322,N,16023532047
+OS2024003,manutenção,Manutenção,Limpeza e troca de pasta térmica em notebook,2024-03-03,2024-03-04,Manutenção preventiva realizada com sucesso.,Sem observações,49385654000139,11987654323,S,26502847064
+OS2024004,orçamento,Orçamento,Reparo de televisão com tela quebrada,2024-03-04,2024-03-05,Orçamento enviado ao cliente para aprovação.,Nenhuma observação,43456012000142,11987654324,N,48689674525
+OS2024005,aguardando cliente,Reparo,Aguardando aprovação do orçamento para reparo,2024-03-05,2024-03-08,Cliente informado sobre orçamento.,Sem observações,43456012000142,11987654325,S,76168810099
+OS2024006,concluída,Reparo,Substituição de placa-mãe em desktop,2024-03-06,2024-03-07,Reparo realizado com sucesso.,Sem observações,43456012000142,11987654326,N,16023532047
+OS2024007,finalizada,Reparo,Entrega do equipamento ao cliente,2024-03-07,2024-03-08,Entrega realizada com sucesso.,Sem observações,43456012000142,11987654327,N,26502847064
+OS2024010,finalizada,Manutenção,Entrega,2024-03-12,,Entrega realizada com sucesso.,Cliente Recusou,49385654000139,11987654321,N,89321648003

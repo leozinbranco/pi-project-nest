@@ -33,13 +33,14 @@ export class WorkOrderController {
   // @UseGuards(AuthGuard)
 
   // ## TODO: Passar query param para body param.
-  @Get()
-  findOne(@Query('codOs') codOs: string, @Query('pass') pass: string) {
+  // remover metodo sem utilidade
+  @Get('one/:codOs')
+  findOne(@Param('codOs') codOs: string, @Param('pass') pass: string) {
     return this.workOrderService.findOne({ codOs, pass });
   }
 
-  @Get('all')
-  findMany(@Query('codOs') codOs: string, @Query('pass') pass: string) {
+  @Get('all/:codOs/:pass')
+  findMany(@Param('codOs') codOs: string, @Param('pass') pass: string) {
     return this.workOrderService.findAll({ codOs, pass });
   }
 
