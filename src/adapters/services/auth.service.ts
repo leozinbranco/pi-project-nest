@@ -21,10 +21,10 @@ export class AuthService {
     if (user?.senhaUsuario !== String(pass)) {
       throw new UnauthorizedException();
     }
-    //const payload = { sub: user.codUsuario, username: user.nomeUsuario };
-    return user;
-    /*return {
+    const payload = { sub: user.codUsuario, username: user.nomeUsuario };
+    return {
+      user: user,
       access_token: await this.jwtService.signAsync(payload),
-    };*/
+    };
   }
 }

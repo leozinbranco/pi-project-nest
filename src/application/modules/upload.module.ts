@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { UploadService } from '../services/upload.service';
-import { UploadController } from '../application/controllers/upload.controller';
+import { UploadService } from '../../adapters/services/upload.service';
+import { UploadController } from '../controllers/upload/upload.controller';
 import { PrismaModule } from 'src/adapters/prisma/prisma.module';
 
 @Module({

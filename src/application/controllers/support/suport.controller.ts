@@ -6,11 +6,13 @@ import {
   Body,
   Res,
   HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
-import { SuportService } from '../../services/suport.service';
+import { SuportService } from '../../../adapters/services/suport.service';
 import { MailerMailService } from 'src/adapters/mailer-mail/mailer-mail.service';
 import { Tickets } from '@prisma/client';
 import { Response } from 'express';
+import { AuthGuard } from '../../guards/auth/auth.guard';
 
 @Controller('suport')
 export class SuportController {
@@ -19,11 +21,12 @@ export class SuportController {
     private readonly mailService: MailerMailService,
   ) {}
 
-  @Get()
-  async findAll() {
-    return await this.suportService.findAll();
-  }
+  // @Get()
+  // async findAll() {
+  //   return await this.suportService.findAll();
+  // }
 
+  @UseGuards(AuthGuard)
   @Get(':numTicket')
   async find(@Param() params: { numTicket: number }, @Res() res: Response) {
     const ticket = await this.suportService.find(params.numTicket);
@@ -43,6 +46,7 @@ export class SuportController {
     });
   }
 
+  @UseGuards(AuthGuard)
   @Post()
   async create(@Body() suportDTO: Tickets, @Res() res: Response) {
     const ticket = await this.suportService.create(suportDTO);

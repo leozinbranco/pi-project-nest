@@ -12,9 +12,9 @@ export class SuportService {
     });
   }
 
-  async findAll() {
-    return await this.prismaService.tickets.findMany();
-  }
+  // async findAll() {
+  //   return await this.prismaService.tickets.findMany();
+  // }
 
   async find(numTicket: number) {
     return await this.prismaService.tickets.findFirst({
