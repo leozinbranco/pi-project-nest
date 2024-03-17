@@ -11,20 +11,32 @@ export class WorkOrderService {
   // }
 
   async findAll(input: GetWorkOrderRequest) {
-    return await this.prismaService.ordemServico.findMany({
+    const serviceOrders = await this.prismaService.ordemServico.findFirst({
       where: {
         numOs: input.codOs,
       },
     });
+
+    let orders = [];
+    if (serviceOrders.atributoValidadorOs === 'S') {
+      orders = await this.prismaService.ordemServico.findMany({
+        where: {
+          cpfUsuario: serviceOrders.cpfUsuario,
+        },
+      });
+    }
+
+    return orders.length === 0 ? [serviceOrders] : orders;
   }
 
   async findOne(input: GetWorkOrderRequest) {
-    return await this.prismaService.ordemServico.findFirst({
+    const serviceOrders = await this.prismaService.ordemServico.findFirst({
       where: {
         numOs: input.codOs,
         telContatoOs: input.pass,
       },
     });
+    return serviceOrders;
   }
 
   // update(id: number, updateWorkOrderDto: UpdateWorkOrderDto) {

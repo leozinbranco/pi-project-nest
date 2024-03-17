@@ -61,10 +61,11 @@ model OrdemServico {
   observacaoOs        String?         @db.VarChar(200)
   telContatoOs        String?         @db.VarChar(11)
   emailContatoOs      String?         @db.VarChar(50)
-  cnpjClienteOs       String?         @db.VarChar(14)
+  cnpjClienteOs       String          @db.VarChar(14)
   dataAberturaOs      DateTime
-  dataUltimaModOs     DateTime
-  atributoValidadorOs String?         @db.VarChar(15)
+  dataUltimaModOs     DateTime?
+  atributoValidadorOs String?         @db.Char(1)
+  cpfUsuario          String          @db.VarChar(11)
   EmpresaOs           EmpresaClientes @relation(fields: [codEmpresaOs], references: [codEmpresa])
   codEmpresaOs        Int
 }
