@@ -9,13 +9,13 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { UploadService } from '../../adapters/services/upload.service';
+import { UploadService } from '../../../adapters/services/upload.service';
 import { Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 // import multerConfig from './multer-config';
 import * as fs from 'fs';
-import multerConfig from '../utils/multer-config';
-import { AuthGuard } from '../guards/auth/auth.guard';
+import multerConfig from '../../utils/multer-config';
+import { AuthGuard } from '../../guards/auth/auth.guard';
 
 @Controller('upload')
 export class UploadController {

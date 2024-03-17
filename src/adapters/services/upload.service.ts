@@ -22,7 +22,11 @@ export class UploadService {
       dataAberturaOs: new Date(upload.dataAberturaOs),
       dataUltimaModOs: new Date(upload.dataUltimaModOs),
       atributoValidadorOs: upload.atributoValidadorOs,
-      codEmpresaOs: enterprise.codEmpresa,
+      EmpresaOs: {
+        connect: {
+          codEmpresa: enterprise.codEmpresa,
+        },
+      },
     };
 
     /* ao invés de dar sempre um create, realizar um upsert onde a premissa é 
