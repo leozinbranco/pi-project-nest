@@ -27,7 +27,6 @@ export class UploadService {
         },
       });
     }
-    console.log('UPLOAD> ', upload);
     return await this.prismaService.ordemServico.create({
       data: {
         ...upload,

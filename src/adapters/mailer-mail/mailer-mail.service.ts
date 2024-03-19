@@ -15,7 +15,7 @@ export class MailerMailService {
     obs: string,
   ) {
     const fromBase = process.env.EMAILFROM;
-    const image = process.cwd() + '/src/templates/images/slogan.png';
+    const image = process.cwd() + '/templates/images/slogan.png';
     const imageBase64 = fs.readFileSync(image).toString('base64');
     const date = new Date();
 

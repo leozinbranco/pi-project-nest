@@ -35,7 +35,6 @@ export class UploadController {
     uploadFile: Express.Multer.File,
     @Res() res: Response,
   ) {
-    console.log('CHEGOU AQUI');
     let rows = [];
     const read = fs.createReadStream(`./upload/${uploadFile.originalname}`, {
       encoding: 'utf8',
@@ -43,18 +42,11 @@ export class UploadController {
     read
       .on('data', (row) => {
         if (typeof row === 'string') {
-          console.log('ROW: ', row);
           const rowFile = row.split('\n');
-          console.log(' rowfile : ', rowFile);
           rowFile.forEach((index) => {
-            console.log(' index : ', index);
-            console.log(' index : ', index.length);
-
             if (index.length > 0) {
               const numberColumns = index.split(',').length;
               const indexArray = index.split(',');
-              console.log('NUMERO COLUNAS> ', numberColumns);
-              console.log('index array> ', indexArray);
               if (
                 numberColumns > 12 &&
                 index.split(';')[indexArray.length - 1] !== ''
@@ -70,7 +62,6 @@ export class UploadController {
       .on('end', async () => {
         try {
           rows = rows.slice(1);
-          console.log('ROWS> ', rows);
           if (!rows) {
             throw new InternalServerErrorException(
               'O delimitador do arquivo está diferente de ponto e vírgula! (;)',
@@ -78,8 +69,6 @@ export class UploadController {
           }
           /* Trata cada linha do arquivo e realiza a inserção  */
           const enterprise = rows.map(async (row) => {
-            console.log('ROWS> ROW>  ', row);
-
             if (row.length === 0) {
               throw new InternalServerErrorException(
                 'Nenhum dado identificado para realizar o upload ou o CSV contém mais que 12 colunas!',
@@ -93,14 +82,11 @@ export class UploadController {
                 row[8],
               );
             }
-            console.log('ERRO> ', diffEnterprise);
-            console.log('ERR row[8]> ', row[8]);
             if (diffEnterprise) {
               throw new InternalServerErrorException(
                 `Não é possível realizar o upload de O.S de empresa distintas. CNPJ: ${row[8]}`,
               );
             }
-            console.log('LINHA CONTROLLER>> ', row[8]);
             return this.uploadService.treatFile(this.isValidRow(row));
           });
           await Promise.all(enterprise);
@@ -130,10 +116,8 @@ export class UploadController {
   }
 
   private formatRow(row): UploadDto {
-    console.log('ROW>>>>>>>>>', row);
     const currentDate = new Date();
     row[5] = this.validateDate(row[5]);
-    console.log('ROW##########', row);
     row[4] = this.validateDate(row[4]);
     const newOs = {
       numOs: row[0],
@@ -180,7 +164,6 @@ export class UploadController {
   }
 
   private isValidRow(row: UploadDto): UploadDto {
-    console.log('isValidRow >> ', row);
     const newOs = this.formatRow(row);
     if (newOs.numOs.length === 0) {
       throw new InternalServerErrorException(

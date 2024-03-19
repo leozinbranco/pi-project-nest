@@ -1,0 +1,8 @@
+Número da OS;Status;Tipo;Descrição;Data de Abertura;Data da última modificação;Descrição do Ajuste;Observação;CNPJ Empresa;Telefone de Contato;Atributo Validador
+OS2024001;aberta;Celulares;Troca de tela de celular;01/03/2024;02/03/2024;Troca de tela realizada com sucesso.;Sem observações;76798112000100;11987654321;11987654321
+OS2024002;diagnóstico;Equipamento de rede;Problema de conexão de internet;02/03/2024;03/03/2024;Identificar de problema de roteador.;Antena quebrada;76798112000100;11987654322;11987654322
+OS2024003;Manutenção;Notebooks;Limpeza e troca de pasta térmica em notebook;03/03/2024;04/03/2024;Manutenção preventiva realizada com sucesso.;Sem observações;76798112000100;11987654323;11987654323
+OS2024004;Orçamento;Televisores;Reparo de televisão com tela quebrada;04/03/2024;05/03/2024;Orçamento enviado ao cliente para aprovação.;Nenhuma Avaria;76798112000100;11987654324;11987654324
+OS2024005;aguardando cliente;Desktops;Aguardando aprovação do orçamento para reparo;05/03/2024;06/03/2024;Cliente informado sobre orçaamento.;Sem observações;76798112000100;11987654325;11987654325
+OS2024006;concluí­da;Desktops;Substituição de placa-mãe em desktop;06/03/2024;07/03/2024;Reparo realizado com sucesso.;Sem observações;76798112000100;11987654326;11987654326
+OS2024007;finalizada;Notebooks;Entrega do equipamento ao cliente;07/03/2024;08/03/2024 12:00;Entrega realizada com sucesso.;Sem observações;76798112000100;11987654327;11987654327

@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "OrdemServico" ALTER COLUMN "tipoObjOs" SET DATA TYPE VARCHAR(200);

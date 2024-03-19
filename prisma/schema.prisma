@@ -55,7 +55,7 @@ model OrdemServico {
   codOs               Int             @id @default(autoincrement())
   numOs               String          @db.VarChar(10)
   statusOs            String          @db.VarChar(25)
-  tipoObjOs           String          @db.VarChar(50)
+  tipoObjOs           String          @db.VarChar(200)
   tipoOs              String          @db.VarChar(20)
   descricaoAjustesOs  String?         @db.VarChar(200)
   observacaoOs        String?         @db.VarChar(200)
