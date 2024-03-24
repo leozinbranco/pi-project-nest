@@ -26,7 +26,7 @@ export class WorkOrderService {
     if (serviceOrders.atributoValidadorOs === 'S') {
       orders = await this.prismaService.ordemServico.findMany({
         where: {
-          cpfUsuario: serviceOrders.cpfUsuario,
+          documento: serviceOrders.documento,
         },
         include: {
           EmpresaOs: {

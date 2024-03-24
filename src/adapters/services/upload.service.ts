@@ -21,7 +21,7 @@ export class UploadService {
         data: {
           ...upload,
           cnpjClienteOs: upload.cnpjClienteOs.replace(/.\/\-/g, ''),
-          cpfUsuario: upload.cpfUsuario.replace(/-./g, ''),
+          documento: upload.documento.replace(/.\/\-/g, ''),
           dataUltimaModOs:
             upload.dataUltimaModOs === '' ? new Date() : upload.dataUltimaModOs,
         },
@@ -31,7 +31,7 @@ export class UploadService {
       data: {
         ...upload,
         cnpjClienteOs: upload.cnpjClienteOs.replace(/.\/\-/g, ''),
-        cpfUsuario: upload.cpfUsuario.replace(/-./g, ''),
+        documento: upload.documento.replace(/-./g, ''),
         dataUltimaModOs:
           upload.dataUltimaModOs === '' ? null : upload.dataUltimaModOs,
       },

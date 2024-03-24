@@ -143,7 +143,7 @@ export class UploadController {
       telContatoOs: row[9],
       emailContatoOs: '',
       atributoValidadorOs: row[10],
-      cpfUsuario: row[11].replace(/\r$/, ''),
+      documento: row[11].replace(/\r$/, ''),
       EmpresaOs: {
         connect: {
           codEmpresa: 0,
@@ -215,11 +215,122 @@ export class UploadController {
       );
     }
     if (
-      !newOs.cpfUsuario ||
-      (newOs.cpfUsuario.length >= 0 && newOs.cpfUsuario.length <= 10)
+      !newOs.documento ||
+      (newOs.documento.length >= 0 && newOs.documento.length <= 10)
     ) {
       throw new InternalServerErrorException('Insira um CPF válido!');
     }
     return newOs;
+  }
+
+  /* Realiza o cálculo para descobrir os dígitos do CPF/CNPJ */
+  private calcCpfCnpj(cpfCnpj) {
+    const cpfCnpjCalc = 0;
+
+    /* Realizando o cálculo para obter o valor total a fim de conseguir descobrir os dígitos do CPF/CNPJ */
+    if (cpfCnpj.length <= 10) {
+      const cpfCnpjCalc = cpfCnpj
+        .map(function (number, index) {
+          return Number(number) * (index + 2);
+        })
+        .reduce((accumulator, number) => accumulator + number, 0);
+    } else {
+      const cpfCnpjCalc = cpfCnpj
+        .map(function (number, index) {
+          return (
+            Number(number) *
+            (index <= 7 ? index + 2 : index >= 9 ? index - 7 + 1 : 2)
+          );
+        })
+        .reduce((accumulator, number) => accumulator + number, 0);
+    }
+
+    /* Obtendo o resto(inteiro) da minha divisão */
+    const rest = cpfCnpjCalc % 11;
+
+    /* Concatenando o dígito no CPF */
+    cpfCnpj = cpfCnpj.reverse().join('');
+    if (rest < 2) {
+      cpfCnpj += '0';
+    } else {
+      cpfCnpj += 11 - rest;
+    }
+    return cpfCnpj;
+  }
+
+  /* Realiza a validação do CPF */
+  private isCpfValid(rawValue) {
+    let cpf = rawValue.split('').reverse();
+
+    /* Lista de CPF inválidos */
+    const cpfInvalids = [
+      '00000000000',
+      '11111111111',
+      '22222222222',
+      '33333333333',
+      '44444444444',
+      '55555555555',
+      '66666666666',
+      '77777777777',
+      '88888888888',
+      '99999999999',
+    ];
+
+    if (cpfInvalids.includes(rawValue)) {
+      return false;
+    }
+
+    /* Removendo os dígitos do cpf */
+    cpf.splice(0, 2);
+
+    /* Descobrindo o primeiro dígito */
+    cpf = this.calcCpfCnpj(cpf).split('').reverse();
+
+    /* Descobrindo o segundo dígito */
+    cpf = this.calcCpfCnpj(cpf);
+
+    if (rawValue !== cpf) {
+      //swal('Oops', 'O CPF inserido não é válido!', 'error');
+      return false;
+    }
+    return true;
+  }
+
+  /* Realiza a validação do CNPJ */
+  private isCnpjValid(rawValue) {
+    let cnpj = rawValue.split('').reverse();
+
+    /* Lista de CNPJ inválidos */
+    const cnpjInvalids = [
+      '00000000000000',
+      '11111111111111',
+      '22222222222222',
+      '33333333333333',
+      '44444444444444',
+      '55555555555555',
+      '66666666666666',
+      '77777777777777',
+      '88888888888888',
+      '99999999999999',
+    ];
+
+    if (cnpjInvalids.includes(rawValue)) {
+      return false;
+    }
+
+    /* Removendo os dígitos do cnpj */
+    cnpj.splice(0, 2);
+
+    /* Descobrindo o primeiro dígito */
+    cnpj = this.calcCpfCnpj(cnpj).split('').reverse();
+
+    /* Descobrindo o segundo dígito */
+    cnpj = this.calcCpfCnpj(cnpj);
+
+    if (rawValue !== cnpj) {
+      //swal('Oops', 'O CNPJ inserido não é válido!', 'error');
+      return false;
+    }
+    return true;
   }
 }

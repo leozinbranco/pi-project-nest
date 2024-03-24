@@ -57,8 +57,8 @@ export class UploadDto {
   atributoValidadorOs: string;
 
   @IsString()
-  @Length(11)
-  cpfUsuario: string;
+  @Length(14)
+  documento: string;
   EmpresaOs: {
     connect: {
       codEmpresa: number;
