@@ -218,7 +218,25 @@ export class UploadController {
       !newOs.documento ||
       (newOs.documento.length >= 0 && newOs.documento.length <= 10)
     ) {
-      throw new InternalServerErrorException('Insira um CPF válido!');
+      throw new InternalServerErrorException(
+        'Insira um CPF válido para a OS do usário!',
+      );
+    }
+
+    if (
+      !newOs.documento ||
+      (newOs.documento.length > 11 && newOs.documento.length <= 13)
+    ) {
+      throw new InternalServerErrorException(
+        'Insira um CNPJ válido para a OS do usuário!',
+      );
+    }
+
+    /* Realiza a validação de um cpf/cnpj  */
+    if (newOs.documento.length === 11) {
+      this.isCpfValid(newOs.documento);
+    } else if (newOs.documento.length === 14) {
+      this.isCnpjValid(newOs.documento);
     }
     return newOs;
   }

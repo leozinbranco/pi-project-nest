@@ -17,7 +17,11 @@ export class WorkOrderService {
       },
       include: {
         EmpresaOs: {
-          select: { telefoneEmpresa: true, emailEmpresa: true },
+          select: {
+            telefoneEmpresa: true,
+            emailEmpresa: true,
+            razaoSocialEmpresa: true,
+          },
         },
       },
     });
@@ -30,13 +34,17 @@ export class WorkOrderService {
         },
         include: {
           EmpresaOs: {
-            select: { telefoneEmpresa: true, emailEmpresa: true },
+            select: {
+              telefoneEmpresa: true,
+              emailEmpresa: true,
+              razaoSocialEmpresa: true,
+            },
           },
         },
       });
     }
 
-    return orders.length === 0 ? [serviceOrders] : orders;
+    return orders.length === 0 ? [serviceOrders] : orders.slice(0, 4);
   }
 
   async findOne(input: GetWorkOrderRequest) {
@@ -46,11 +54,31 @@ export class WorkOrderService {
       },
       include: {
         EmpresaOs: {
-          select: { telefoneEmpresa: true, emailEmpresa: true },
+          select: {
+            telefoneEmpresa: true,
+            emailEmpresa: true,
+            razaoSocialEmpresa: true,
+          },
         },
       },
     });
     return serviceOrders;
+  }
+
+  async filterDate(codOs: string, startDate: string, endDate: string) {
+    const serviceOrders = await this.findAll({ codOs: codOs, pass: '' });
+
+    let orders = [];
+    orders = serviceOrders.filter((os) => {
+      if (
+        new Date(os.dataUltimoUpload) >=
+          new Date(startDate + 'T00:00:00.000Z') &&
+        new Date(os.dataUltimoUpload) <= new Date(endDate + 'T23:59:59.000Z')
+      ) {
+        return os;
+      }
+    });
+    return orders;
   }
 
   // update(id: number, updateWorkOrderDto: UpdateWorkOrderDto) {

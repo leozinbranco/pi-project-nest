@@ -64,6 +64,7 @@ model OrdemServico {
   cnpjClienteOs       String          @db.VarChar(14)
   dataAberturaOs      DateTime
   dataUltimaModOs     DateTime?
+  dataUltimoUpload    DateTime?
   atributoValidadorOs String?         @db.Char(1)
   documento           String          @db.VarChar(14)
   EmpresaOs           EmpresaClientes @relation(fields: [codEmpresaOs], references: [codEmpresa])

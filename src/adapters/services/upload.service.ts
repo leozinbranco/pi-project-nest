@@ -24,6 +24,7 @@ export class UploadService {
           documento: upload.documento.replace(/.\/\-/g, ''),
           dataUltimaModOs:
             upload.dataUltimaModOs === '' ? new Date() : upload.dataUltimaModOs,
+          dataUltimoUpload: new Date(),
         },
       });
     }
@@ -34,6 +35,7 @@ export class UploadService {
         documento: upload.documento.replace(/-./g, ''),
         dataUltimaModOs:
           upload.dataUltimaModOs === '' ? null : upload.dataUltimaModOs,
+        dataUltimoUpload: new Date(),
       },
     });
   }

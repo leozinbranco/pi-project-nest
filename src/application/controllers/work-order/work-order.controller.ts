@@ -19,4 +19,18 @@ export class WorkOrderController {
   findMany(@Param('codOs') codOs: string, @Param('pass') pass: string) {
     return this.workOrderService.findAll({ codOs, pass });
   }
+
+  @Get('filterDate/:startDate/:endDate/:codOs')
+  filterDate(
+    @Param('startDate') startDate: string,
+    @Param('endDate') endDate: string,
+    @Param('codOs') codOs: string,
+  ) {
+    return this.workOrderService.filterDate(codOs, startDate, endDate);
+  }
+
+  @Get('filterCodOs/:numberOs')
+  filterCodOs(@Param('numberOs') codOs: string) {
+    return this.workOrderService.findOne({ codOs, pass: '' });
+  }
 }
