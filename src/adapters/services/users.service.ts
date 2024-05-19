@@ -16,7 +16,21 @@ export class UsersService {
         cpfUsuario: cpf,
       },
       include: {
-        empresaUsuario: {
+        EmpresaClientes: {
+          select: { codEmpresa: true, emailEmpresa: true, cnpjEmpresa: true },
+        },
+      },
+    });
+  }
+
+  async findOneByEmail(email: string): Promise<UsuariosAdm | undefined> {
+    return await this.prismaService.usuariosAdm.findFirst({
+      where: {
+        emailUsuario: email,
+        adm: true,
+      },
+      include: {
+        EmpresaClientes: {
           select: { codEmpresa: true, emailEmpresa: true, cnpjEmpresa: true },
         },
       },

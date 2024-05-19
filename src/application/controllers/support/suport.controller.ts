@@ -7,6 +7,9 @@ import {
   Res,
   HttpStatus,
   UseGuards,
+  Query,
+  Put,
+  Patch,
 } from '@nestjs/common';
 import { SuportService } from '../../../adapters/services/suport.service';
 import { MailerMailService } from 'src/adapters/mailer-mail/mailer-mail.service';
@@ -14,36 +17,40 @@ import { Tickets } from '@prisma/client';
 import { Response } from 'express';
 import { AuthGuard } from '../../guards/auth/auth.guard';
 
-@Controller('suport')
+@Controller('support')
 export class SuportController {
   constructor(
     private readonly suportService: SuportService,
     private readonly mailService: MailerMailService,
   ) {}
 
-  // @Get()
-  // async findAll() {
-  //   return await this.suportService.findAll();
-  // }
+  // @UseGuards(AuthGuard)
+  @Get()
+  async find(@Query('numTicket') numTicket: number, @Res() res: Response) {
+    if (numTicket) {
+      const ticket = await this.suportService.find(numTicket);
 
-  @UseGuards(AuthGuard)
-  @Get(':numTicket')
-  async find(@Param() params: { numTicket: number }, @Res() res: Response) {
-    const ticket = await this.suportService.find(params.numTicket);
+      if (!ticket) {
+        return res.status(HttpStatus.NOT_FOUND).json({
+          data: [],
+          message: 'Nenhum ticket foi encontrado',
+          status: false,
+        });
+      }
 
-    if (ticket === null) {
-      return res.status(HttpStatus.NOT_FOUND).json({
-        data: [],
-        message: 'Nenhum ticket foi encontrado',
-        status: false,
+      return res.status(200).json({
+        data: [ticket],
+        message: 'Ticket encontrado com sucesso',
+        status: true,
+      });
+    } else {
+      const tickets = await this.suportService.findAll();
+      return res.status(200).json({
+        data: tickets,
+        message: 'Tickets encontrados com sucesso',
+        status: true,
       });
     }
-
-    return res.status(200).json({
-      data: [ticket],
-      message: 'Ticket encontrado com sucesso',
-      status: true,
-    });
   }
 
   @UseGuards(AuthGuard)
@@ -70,6 +77,34 @@ export class SuportController {
         },
       ],
       message: `Ticket Criado com sucesso para a empresa ${enterprise.nomeFantasiaEmpresa}`,
+      status: true,
+    });
+  }
+
+  // @UseGuards(AuthGuard)
+  @Patch(':numTicket')
+  async update(
+    @Param('numTicket') numTicket: string,
+    @Body() updateData: Partial<Tickets>,
+    @Res() res: Response,
+  ) {
+    const ticketNumInt = Number(numTicket);
+    const updatedTicket = await this.suportService.update(
+      ticketNumInt,
+      updateData,
+    );
+
+    if (!updatedTicket) {
+      return res.status(HttpStatus.NOT_FOUND).json({
+        data: [],
+        message: 'Nenhum ticket foi encontrado',
+        status: false,
+      });
+    }
+
+    return res.status(HttpStatus.OK).json({
+      data: [updatedTicket],
+      message: 'Ticket atualizado com sucesso',
       status: true,
     });
   }
