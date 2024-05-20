@@ -20,11 +20,14 @@ import { AuthGuard } from '../../guards/auth/auth.guard';
 export class SuportController {
   constructor(private readonly suportService: SuportService) {}
 
-  // @UseGuards(AuthGuard)
-  @Get()
-  async find(@Query('numTicket') numTicket: number, @Res() res: Response) {
-    if (numTicket) {
-      const ticket = await this.suportService.find(numTicket);
+  // @Get()
+  // async findAll() {
+  //   return await this.suportService.findAll();
+  // }
+
+  @Get(':numTicket')
+  async find(@Param() params: { numTicket: number }, @Res() res: Response) {
+    const ticket = await this.suportService.find(params.numTicket);
 
       if (!ticket) {
         return res.status(HttpStatus.NOT_FOUND).json({
