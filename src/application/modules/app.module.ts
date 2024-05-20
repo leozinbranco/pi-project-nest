@@ -7,6 +7,7 @@ import { UploadModule } from './upload.module';
 import { UsersModule } from './users.module';
 import { AuthModule } from './auth.module';
 import { WorkOrderModule } from './work-order.module';
+import { UpNextModule } from './up-next.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { WorkOrderModule } from './work-order.module';
     AuthModule,
     UsersModule,
     WorkOrderModule,
+    UpNextModule,
   ],
   controllers: [],
 })

@@ -9,8 +9,8 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors({
     origin: 'http://localhost:3000',
-    methods: 'GET, POST',
-    credentials: true,
+    methods: 'GET, POST, PUT, DELETE',
+    // credentials: true,
   });
   const config = new DocumentBuilder()
     .setTitle('Order Flow API')
@@ -20,6 +20,6 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(appEnv.node.port);
+  await app.listen(3002);
 }
 bootstrap();

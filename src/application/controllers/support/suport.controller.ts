@@ -26,7 +26,6 @@ export class SuportController {
   //   return await this.suportService.findAll();
   // }
 
-  @UseGuards(AuthGuard)
   @Get(':numTicket')
   async find(@Param() params: { numTicket: number }, @Res() res: Response) {
     const ticket = await this.suportService.find(params.numTicket);

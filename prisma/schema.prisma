@@ -19,21 +19,25 @@ model EmpresaClientes {
   areaAtuacaoEmpresa  String         @db.VarChar(20)
   telefoneEmpresa     String         @db.VarChar(15)
   enderecoEmpresa     String         @db.VarChar(75)
-  usuariosAdm         UsuariosAdm[]
   EmpresaOs           OrdemServico[]
   EmpresaTicket       Tickets[]      @relation("EmpresaTicket")
   CnpjTicket          Tickets[]      @relation("CnpjTicket")
+  UsuariosAdm         UsuariosAdm[]  @relation("cod")
+  UsuariosAdmDocument UsuariosAdm[]  @relation("document")
 }
 
 model UsuariosAdm {
-  codUsuario        Int             @id @default(autoincrement())
-  nomeUsuario       String          @db.VarChar(20)
-  cpfUsuario        String          @db.VarChar(11)
-  telefoneUsuario   String?         @db.VarChar(11)
-  emailUsuario      String          @db.VarChar(50)
-  senhaUsuario      String          @db.VarChar(8)
-  empresaUsuario    EmpresaClientes @relation(fields: [codEmpresaUsuario], references: [codEmpresa])
-  codEmpresaUsuario Int
+  codUsuario                     Int              @id @default(autoincrement())
+  nomeUsuario                    String           @db.VarChar(20)
+  cpfUsuario                     String           @db.VarChar(11)
+  telefoneUsuario                String?          @db.VarChar(11)
+  emailUsuario                   String           @db.VarChar(50)
+  senhaUsuario                   String           @db.VarChar(8)
+  adm                            Boolean          @db.Boolean()
+  empresaUsuarioCnpj             EmpresaClientes? @relation("document", fields: [empresaClientesDocumentUsuario], references: [cnpjEmpresa])
+  empresaClientesDocumentUsuario String?          @db.VarChar(14)
+  EmpresaClientes                EmpresaClientes? @relation("cod", fields: [empresaClientesCodEmpresa], references: [codEmpresa])
+  empresaClientesCodEmpresa      Int?
 }
 
 model Tickets {
