@@ -31,6 +31,7 @@ export class WorkOrderService {
       orders = await this.prismaService.ordemServico.findMany({
         where: {
           documento: serviceOrders.documento,
+          atributoValidadorOs: 'S',
         },
         include: {
           EmpresaOs: {
