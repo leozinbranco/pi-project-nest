@@ -16,7 +16,7 @@ export class UsersService {
         cpfUsuario: cpf,
       },
       include: {
-        EmpresaClientes: {
+        empresaUsuarioCnpj: {
           select: { codEmpresa: true, emailEmpresa: true, cnpjEmpresa: true },
         },
       },
