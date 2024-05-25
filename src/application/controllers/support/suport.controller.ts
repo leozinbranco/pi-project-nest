@@ -9,17 +9,13 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { SuportService } from '../../../adapters/services/suport.service';
-import { MailerMailService } from 'src/adapters/mailer-mail/mailer-mail.service';
 import { Tickets } from '@prisma/client';
 import { Response } from 'express';
 import { AuthGuard } from '../../guards/auth/auth.guard';
 
 @Controller('suport')
 export class SuportController {
-  constructor(
-    private readonly suportService: SuportService,
-    private readonly mailService: MailerMailService,
-  ) {}
+  constructor(private readonly suportService: SuportService) {}
 
   // @Get()
   // async findAll() {
@@ -52,16 +48,6 @@ export class SuportController {
     const enterprise = await this.suportService.findEnterprise(
       ticket.codEmpresaTicket,
     );
-    if (ticket) {
-      await this.mailService.sendEmailTicket(
-        'upNextConsultoria@gmail.com',
-        'Ticket de Suporte',
-        'index',
-        Number(enterprise.EmpresaTicket[0].numTicket),
-        ticket.descricaoAjusteTicket,
-        ticket.descricaoTicket,
-      );
-    }
     return res.status(HttpStatus.CREATED).json({
       data: [
         {

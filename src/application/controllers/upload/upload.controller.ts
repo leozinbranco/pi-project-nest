@@ -21,7 +21,6 @@ import { AuthGuard } from 'src/application/guards/auth/auth.guard';
 @Controller('upload')
 export class UploadController {
   constructor(private readonly uploadService: UploadService) {}
-  @UseGuards(AuthGuard)
   @Post(':cod/:user')
   @UseInterceptors(FileInterceptor('file', multerConfig))
   async uploadFile(
