@@ -7,6 +7,7 @@ import { appEnv } from './shared/app-env';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
+  const isProduction = process.env.NODE_ENV === 'production';
   const corsOptions = {
     origin: isProduction ? 'https://order-flow-frontend.vercel.app' : '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
@@ -14,6 +15,7 @@ async function bootstrap() {
     optionsSuccessStatus: 204,
     credentials: true,
   };
+  app.enableCors(corsOptions);
   const config = new DocumentBuilder()
     .setTitle('Order Flow API')
     .setDescription('API para controle de ordens de serviço.')
