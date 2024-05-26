@@ -7,11 +7,13 @@ import { appEnv } from './shared/app-env';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
-  app.enableCors({
-    origin: 'http://localhost:3000',
-    methods: 'GET, POST, PUT, DELETE',
-    // credentials: true,
-  });
+  const corsOptions = {
+    origin: isProduction ? 'https://order-flow-frontend.vercel.app' : '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+    credentials: true,
+  };
   const config = new DocumentBuilder()
     .setTitle('Order Flow API')
     .setDescription('API para controle de ordens de serviço.')
