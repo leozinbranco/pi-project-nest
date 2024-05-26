@@ -11,10 +11,14 @@ import {
 import { EmpresaClientes, UsuariosAdm } from '@prisma/client';
 import { Response } from 'express';
 import { UpNextService } from 'src/adapters/services/up-next.service';
+import { ValidationDocumentService } from 'src/adapters/services/validation-document.service';
 
 @Controller('up-next')
 export class UpNextController {
-  constructor(private readonly upNextService: UpNextService) {}
+  constructor(
+    private readonly upNextService: UpNextService,
+    private readonly validateDocument: ValidationDocumentService,
+  ) {}
 
   /* Empresas */
 
@@ -169,6 +173,16 @@ export class UpNextController {
       if (enterprise.telefoneEmpresa.length <= 9) {
         throw new InternalServerErrorException(
           'Erro: Necessário inserir o DD no número de cadastro da empresa!',
+        );
+      }
+
+      if (
+        !this.validateDocument.isCnpjValid(
+          enterprise.cnpjEmpresa.replace(/.\/\-/g, ''),
+        )
+      ) {
+        throw new InternalServerErrorException(
+          'O CNPJ: ' + enterprise.cnpjEmpresa + ' é inválido!',
         );
       }
 
@@ -389,6 +403,13 @@ export class UpNextController {
           'Erro: Necessário inserir o DD no número de cadastro da empresa!',
         );
       }
+
+      if (!this.validateDocument.isCpfValid(employee.cpfUsuario)) {
+        throw new InternalServerErrorException(
+          'O CPF: ' + employee.cpfUsuario + ' é inválido!',
+        );
+      }
+
       await this.upNextService.createEmployee(employee, params.cnpjEnterprise);
       return res.status(HttpStatus.CREATED).json({
         data: [{ data: employee }],

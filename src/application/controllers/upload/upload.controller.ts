@@ -18,9 +18,14 @@ import { UploadService } from 'src/adapters/services/upload.service';
 import multerConfig from 'src/application/utils/multer-config';
 import { UploadDto } from 'src/adapters/services/dtos/upload.dto';
 import { AuthGuard } from 'src/application/guards/auth/auth.guard';
+import { ValidationDocumentService } from 'src/adapters/services/validation-document.service';
 @Controller('upload')
 export class UploadController {
-  constructor(private readonly uploadService: UploadService) {}
+  constructor(
+    private readonly uploadService: UploadService,
+    private readonly validationDocument: ValidationDocumentService,
+  ) {}
+  @UseGuards(AuthGuard)
   @Post(':cod/:user')
   @UseInterceptors(FileInterceptor('file', multerConfig))
   async uploadFile(
@@ -73,8 +78,32 @@ export class UploadController {
                 'Nenhum dado identificado para realizar o upload ou o CSV contém mais que 12 colunas!',
               );
             }
-            /* transformar a row e array para objeto */
             let diffEnterprise;
+
+            // Realiza a validação de cpf e cnpj
+            if (
+              !this.validationDocument.isCnpjValid(row[8].replace(/.\/\-/g, ''))
+            ) {
+              throw new InternalServerErrorException(
+                'O CNPJ: ' + row[8] + ' é inválido!',
+              );
+            }
+
+            const documentClient =
+              row[11].replace(/.\/\-/g, '').length === 11
+                ? this.validationDocument.isCpfValid(
+                    row[11].replace(/.\/\-/g, ''),
+                  )
+                : this.validationDocument.isCnpjValid(
+                    row[11].replace(/.\/\-/g, ''),
+                  );
+            if (!documentClient) {
+              throw new InternalServerErrorException(
+                'O CPF: ' + row[11] + ' é inválido!',
+              );
+            }
+
+            /* transformar a row e array para objeto */
             if (codCompany !== null) {
               diffEnterprise = await this.uploadService.findEnterpriseById(
                 codCompany,
@@ -86,7 +115,7 @@ export class UploadController {
                 `Não é possível realizar o upload de O.S de empresa distintas. CNPJ: ${row[8]}`,
               );
             }
-            return this.uploadService.treatFile(this.isValidRow(row));
+            //return this.uploadService.treatFile(this.isValidRow(row));
           });
           await Promise.all(enterprise);
 
@@ -230,124 +259,6 @@ export class UploadController {
         'Insira um CNPJ válido para a OS do usuário!',
       );
     }
-
-    /* Realiza a validação de um cpf/cnpj  */
-    if (newOs.documento.length === 11) {
-      this.isCpfValid(newOs.documento);
-    } else if (newOs.documento.length === 14) {
-      this.isCnpjValid(newOs.documento);
-    }
     return newOs;
-  }
-
-  /* Realiza o cálculo para descobrir os dígitos do CPF/CNPJ */
-  private calcCpfCnpj(cpfCnpj) {
-    const cpfCnpjCalc = 0;
-
-    /* Realizando o cálculo para obter o valor total a fim de conseguir descobrir os dígitos do CPF/CNPJ */
-    if (cpfCnpj.length <= 10) {
-      const cpfCnpjCalc = cpfCnpj
-        .map(function (number, index) {
-          return Number(number) * (index + 2);
-        })
-        .reduce((accumulator, number) => accumulator + number, 0);
-    } else {
-      const cpfCnpjCalc = cpfCnpj
-        .map(function (number, index) {
-          return (
-            Number(number) *
-            (index <= 7 ? index + 2 : index >= 9 ? index - 7 + 1 : 2)
-          );
-        })
-        .reduce((accumulator, number) => accumulator + number, 0);
-    }
-
-    /* Obtendo o resto(inteiro) da minha divisão */
-    const rest = cpfCnpjCalc % 11;
-
-    /* Concatenando o dígito no CPF */
-    cpfCnpj = cpfCnpj.reverse().join('');
-    if (rest < 2) {
-      cpfCnpj += '0';
-    } else {
-      cpfCnpj += 11 - rest;
-    }
-    return cpfCnpj;
-  }
-
-  /* Realiza a validação do CPF */
-  private isCpfValid(rawValue) {
-    let cpf = rawValue.split('').reverse();
-
-    /* Lista de CPF inválidos */
-    const cpfInvalids = [
-      '00000000000',
-      '11111111111',
-      '22222222222',
-      '33333333333',
-      '44444444444',
-      '55555555555',
-      '66666666666',
-      '77777777777',
-      '88888888888',
-      '99999999999',
-    ];
-
-    if (cpfInvalids.includes(rawValue)) {
-      return false;
-    }
-
-    /* Removendo os dígitos do cpf */
-    cpf.splice(0, 2);
-
-    /* Descobrindo o primeiro dígito */
-    cpf = this.calcCpfCnpj(cpf).split('').reverse();
-
-    /* Descobrindo o segundo dígito */
-    cpf = this.calcCpfCnpj(cpf);
-
-    if (rawValue !== cpf) {
-      //swal('Oops', 'O CPF inserido não é válido!', 'error');
-      return false;
-    }
-    return true;
-  }
-
-  /* Realiza a validação do CNPJ */
-  private isCnpjValid(rawValue) {
-    let cnpj = rawValue.split('').reverse();
-
-    /* Lista de CNPJ inválidos */
-    const cnpjInvalids = [
-      '00000000000000',
-      '11111111111111',
-      '22222222222222',
-      '33333333333333',
-      '44444444444444',
-      '55555555555555',
-      '66666666666666',
-      '77777777777777',
-      '88888888888888',
-      '99999999999999',
-    ];
-
-    if (cnpjInvalids.includes(rawValue)) {
-      return false;
-    }
-
-    /* Removendo os dígitos do cnpj */
-    cnpj.splice(0, 2);
-
-    /* Descobrindo o primeiro dígito */
-    cnpj = this.calcCpfCnpj(cnpj).split('').reverse();
-
-    /* Descobrindo o segundo dígito */
-    cnpj = this.calcCpfCnpj(cnpj);
-
-    if (rawValue !== cnpj) {
-      //swal('Oops', 'O CNPJ inserido não é válido!', 'error');
-      return false;
-    }
-    return true;
   }
 }
