@@ -20,6 +20,10 @@ export class SuportService {
     });
   }
 
+  async findAll() {
+    return await this.prismaService.tickets.findMany();
+  }
+
   async findEnterprise(codEnterprise: number) {
     return await this.prismaService.empresaClientes.findFirst({
       where: { codEmpresa: codEnterprise },
@@ -30,6 +34,16 @@ export class SuportService {
           take: 1,
         },
       },
+    });
+  }
+
+  async update(
+    numTicket: number,
+    updateData: Partial<Tickets>,
+  ): Promise<Tickets> {
+    return await this.prismaService.tickets.update({
+      where: { numTicket: numTicket },
+      data: updateData,
     });
   }
 }
