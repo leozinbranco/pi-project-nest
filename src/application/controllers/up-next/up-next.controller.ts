@@ -186,6 +186,12 @@ export class UpNextController {
         );
       }
 
+      const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!regexEmail.test(enterprise.emailEmpresa)) {
+        throw new InternalServerErrorException(
+          'O email: ' + enterprise.emailEmpresa + ' é inválido!',
+        );
+      }
       await this.upNextService.createEnterprise(enterprise);
       return res.status(HttpStatus.CREATED).json({
         data: [{ data: enterprise }],
@@ -212,6 +218,24 @@ export class UpNextController {
       if (enterprise.telefoneEmpresa.length <= 9) {
         throw new InternalServerErrorException(
           'Erro: Necessário inserir o DD no número de cadastro da empresa!',
+        );
+      }
+
+      if (
+        !this.validateDocument.isCnpjValid(
+          enterprise.cnpjEmpresa.replace(/.\/\-/g, ''),
+        )
+      ) {
+        throw new InternalServerErrorException(
+          'O CNPJ: ' + enterprise.cnpjEmpresa + ' é inválido!',
+        );
+      }
+
+      const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      console.log(enterprise.emailEmpresa);
+      if (!regexEmail.test(enterprise.emailEmpresa)) {
+        throw new InternalServerErrorException(
+          'O email: ' + enterprise.emailEmpresa + ' é inválido!',
         );
       }
 
@@ -410,6 +434,13 @@ export class UpNextController {
         );
       }
 
+      const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!regexEmail.test(employee.emailUsuario)) {
+        throw new InternalServerErrorException(
+          'O email: ' + employee.emailUsuario + ' é inválido!',
+        );
+      }
+
       await this.upNextService.createEmployee(employee, params.cnpjEnterprise);
       return res.status(HttpStatus.CREATED).json({
         data: [{ data: employee }],
@@ -440,6 +471,19 @@ export class UpNextController {
       if (employee.telefoneUsuario.length <= 9) {
         throw new InternalServerErrorException(
           'Erro: Necessário inserir o DD no número de cadastro da empresa!',
+        );
+      }
+
+      if (!this.validateDocument.isCpfValid(employee.cpfUsuario)) {
+        throw new InternalServerErrorException(
+          'O CPF: ' + employee.cpfUsuario + ' é inválido!',
+        );
+      }
+
+      const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!regexEmail.test(employee.emailUsuario)) {
+        throw new InternalServerErrorException(
+          'O email: ' + employee.emailUsuario + ' é inválido!',
         );
       }
       await this.upNextService.updateEmployee(employee, params.cnpjEnterprise);

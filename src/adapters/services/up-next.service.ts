@@ -89,6 +89,29 @@ export class UpNextService {
 
   async createEmployee(employee: UsuariosAdm, cnpj: string) {
     await this.findEnterprise(cnpj);
+    const otherEmployeeCpf = await this.prismaService.usuariosAdm.findFirst({
+      where: {
+        cpfUsuario: employee.cpfUsuario,
+      },
+    });
+
+    if (otherEmployeeCpf !== null) {
+      throw new Error(
+        `O CPF ${employee.cpfUsuario} já está sendo utilizado por outro funcionário`,
+      );
+    }
+
+    const otherEmployeeEmail = await this.prismaService.usuariosAdm.findFirst({
+      where: {
+        emailUsuario: employee.emailUsuario,
+      },
+    });
+
+    if (otherEmployeeEmail !== null) {
+      throw new Error(
+        `O E-mail ${employee.emailUsuario} já está sendo utilizado por outro funcionário`,
+      );
+    }
     return await this.prismaService.usuariosAdm.create({
       data: {
         ...employee,
