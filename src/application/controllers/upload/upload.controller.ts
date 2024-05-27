@@ -115,7 +115,7 @@ export class UploadController {
                 `Não é possível realizar o upload de O.S de empresa distintas. CNPJ: ${row[8]}`,
               );
             }
-            //return this.uploadService.treatFile(this.isValidRow(row));
+            return this.uploadService.treatFile(this.isValidRow(row));
           });
           await Promise.all(enterprise);
 
