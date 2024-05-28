@@ -15,7 +15,7 @@ import { Tickets } from '@prisma/client';
 import { Response } from 'express';
 import { AuthGuard } from '../../guards/auth/auth.guard';
 
-@Controller('suport')
+@Controller('support')
 export class SuportController {
   constructor(private readonly suportService: SuportService) {}
 
