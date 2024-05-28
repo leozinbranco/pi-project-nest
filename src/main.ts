@@ -7,9 +7,9 @@ import { appEnv } from './shared/app-env';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
-  const isProduction = process.env.NODE_ENV === 'production';
+  // const isProduction = process.env.NODE_ENV === 'production';
   const corsOptions = {
-    origin: isProduction ? 'https://order-flow-frontend.vercel.app' : '*',
+    origin: '*',// PROVISORIO -> isProduction ? 'https://order-flow-frontend.vercel.app' : '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     preflightContinue: false,
     optionsSuccessStatus: 204,
