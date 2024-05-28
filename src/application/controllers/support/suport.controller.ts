@@ -8,7 +8,6 @@ import {
   HttpStatus,
   UseGuards,
   Query,
-  Put,
   Patch,
 } from '@nestjs/common';
 import { SuportService } from '../../../adapters/services/suport.service';
@@ -16,7 +15,7 @@ import { Tickets } from '@prisma/client';
 import { Response } from 'express';
 import { AuthGuard } from '../../guards/auth/auth.guard';
 
-@Controller('support')
+@Controller('suport')
 export class SuportController {
   constructor(private readonly suportService: SuportService) {}
 

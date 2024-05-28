@@ -46,9 +46,7 @@ export class UploadController {
     read
       .on('data', (row) => {
         if (typeof row === 'string') {
-          // const delimiters = /[,\;\t\|\n]+/;
           const rowFile = row.split('\n');
-          console.log('ROWFILE ', rowFile)
           rowFile.forEach((index) => {
             if (index.length > 0) {
               const numberColumns = index.split(',').length;
@@ -139,7 +137,6 @@ export class UploadController {
             status: false,
           });
         } catch (error) {
-          console.log('error ', error)
           return res.status(HttpStatus.BAD_REQUEST).json({
             data: [],
             message: error.message,
