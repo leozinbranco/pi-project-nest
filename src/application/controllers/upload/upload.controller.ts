@@ -46,7 +46,9 @@ export class UploadController {
     read
       .on('data', (row) => {
         if (typeof row === 'string') {
+          // const delimiters = /[,\;\t\|\n]+/;
           const rowFile = row.split('\n');
+          console.log('ROWFILE ', rowFile)
           rowFile.forEach((index) => {
             if (index.length > 0) {
               const numberColumns = index.split(',').length;
@@ -57,7 +59,7 @@ export class UploadController {
               ) {
                 rows.push([]);
               } else {
-                rows.push(index.split(';'));
+                rows.push(index.split(/[,\;\t\|\n]+/));
               }
             }
           });
@@ -81,6 +83,9 @@ export class UploadController {
             let diffEnterprise;
 
             // Realiza a validação de cpf e cnpj
+            console.log('>>ss>', row);
+            console.log('>>s>', row[7]);
+            console.log('>s>>', row[8]);
             if (
               !this.validationDocument.isCnpjValid(row[8].replace(/.\/\-/g, ''))
             ) {
@@ -134,6 +139,7 @@ export class UploadController {
             status: false,
           });
         } catch (error) {
+          console.log('error ', error)
           return res.status(HttpStatus.BAD_REQUEST).json({
             data: [],
             message: error.message,

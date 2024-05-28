@@ -28,10 +28,10 @@ export class UpNextController {
       const enterprises = (await this.upNextService.findAllEnterprises()).map(
         (enterprise) => {
           return {
-            cod: enterprise.codEmpresa,
+            codigo: enterprise.codEmpresa,
             nome: enterprise.razaoSocialEmpresa,
             email: enterprise.emailEmpresa,
-            document: enterprise.cnpjEmpresa.replace(
+            documento: enterprise.cnpjEmpresa.replace(
               /(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/,
               '$1.$2.$3/$4-$5',
             ),
@@ -76,13 +76,13 @@ export class UpNextController {
           {
             data: [
               {
-                cod: enterprise.codEmpresa,
+                codigo: enterprise.codEmpresa,
                 nome: enterprise.razaoSocialEmpresa,
                 fancyName: enterprise.nomeFantasiaEmpresa,
                 area: enterprise.areaAtuacaoEmpresa,
                 enderecoComp: enterprise.enderecoEmpresa,
                 email: enterprise.emailEmpresa,
-                document: enterprise.cnpjEmpresa.replace(
+                documento: enterprise.cnpjEmpresa.replace(
                   /(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/,
                   '$1.$2.$3/$4-$5',
                 ),
@@ -126,13 +126,13 @@ export class UpNextController {
           {
             data: [
               {
-                cod: enterprise.codEmpresa,
+                codigo: enterprise.codEmpresa,
                 nome: enterprise.razaoSocialEmpresa,
                 fancyName: enterprise.nomeFantasiaEmpresa,
                 area: enterprise.areaAtuacaoEmpresa,
                 enderecoComp: enterprise.enderecoEmpresa,
                 email: enterprise.emailEmpresa,
-                document: enterprise.cnpjEmpresa.replace(
+                documento: enterprise.cnpjEmpresa.replace(
                   /(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/,
                   '$1.$2.$3/$4-$5',
                 ),
@@ -280,10 +280,10 @@ export class UpNextController {
       const employees = (await this.upNextService.findAllEmployees()).map(
         (employee) => {
           return {
-            cod: employee.codUsuario,
+            codigo: employee.codUsuario,
             nome: employee.nomeUsuario,
             email: employee.emailUsuario,
-            document: employee.cpfUsuario.replace(
+            documento: employee.cpfUsuario.replace(
               /(\d{3})(\d{3})(\d{3})(\d{2})/,
               '$1.$2.$3-$4',
             ),
@@ -329,10 +329,10 @@ export class UpNextController {
           {
             data: [
               {
-                cod: employee.codUsuario,
+                codigo: employee.codUsuario,
                 nome: employee.nomeUsuario,
                 email: employee.emailUsuario,
-                document: employee.cpfUsuario.replace(
+                documento: employee.cpfUsuario.replace(
                   /(\d{3})(\d{3})(\d{3})(\d{2})/,
                   '$1.$2.$3-$4',
                 ),
@@ -376,11 +376,11 @@ export class UpNextController {
           {
             data: [
               {
-                cod: employee.codUsuario,
+                codigo: employee.codUsuario,
                 nome: employee.nomeUsuario,
                 email: employee.emailUsuario,
                 cnpjEmpresa: employee.empresaClientesDocumentUsuario,
-                document: employee.cpfUsuario.replace(
+                documento: employee.cpfUsuario.replace(
                   /(\d{3})(\d{3})(\d{3})(\d{2})/,
                   '$1.$2.$3-$4',
                 ),

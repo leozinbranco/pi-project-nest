@@ -9,7 +9,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   // const isProduction = process.env.NODE_ENV === 'production';
   const corsOptions = {
-    origin: '*',// PROVISORIO -> isProduction ? 'https://order-flow-frontend.vercel.app' : '*',
+    origin: '*', // PROVISORIO -> isProduction ? 'https://order-flow-frontend.vercel.app' : '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     preflightContinue: false,
     optionsSuccessStatus: 204,
