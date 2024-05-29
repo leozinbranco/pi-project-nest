@@ -78,7 +78,7 @@ export class UpNextController {
               {
                 codigo: enterprise.codEmpresa,
                 nome: enterprise.razaoSocialEmpresa,
-                fancyName: enterprise.nomeFantasiaEmpresa,
+                nomeFantasia: enterprise.nomeFantasiaEmpresa,
                 area: enterprise.areaAtuacaoEmpresa,
                 enderecoComp: enterprise.enderecoEmpresa,
                 email: enterprise.emailEmpresa,
@@ -128,7 +128,7 @@ export class UpNextController {
               {
                 codigo: enterprise.codEmpresa,
                 nome: enterprise.razaoSocialEmpresa,
-                fancyName: enterprise.nomeFantasiaEmpresa,
+                nomeFantasia: enterprise.nomeFantasiaEmpresa,
                 area: enterprise.areaAtuacaoEmpresa,
                 enderecoComp: enterprise.enderecoEmpresa,
                 email: enterprise.emailEmpresa,
@@ -419,12 +419,12 @@ export class UpNextController {
     try {
       if (!parseInt(employee.cpfUsuario)) {
         throw new InternalServerErrorException(
-          'Erro: Necessário apenas números no CPF de cadastro da empresa!',
+          'Erro: Necessário apenas números no CPF de cadastro do funcionário!',
         );
       }
       if (employee.telefoneUsuario.length <= 9) {
         throw new InternalServerErrorException(
-          'Erro: Necessário inserir o DD no número de cadastro da empresa!',
+          'Erro: Necessário inserir o DD no número de cadastro do funcionário!',
         );
       }
 

@@ -46,7 +46,12 @@ export class UpNextService {
   }
 
   async findAllEnterprises() {
-    return await this.prismaService.empresaClientes.findMany();
+    return await this.prismaService.empresaClientes.findMany({
+      orderBy: {
+        codEmpresa: 'desc',
+      },
+      take: 5,
+    });
   }
 
   async findEnterpriseEmail(email: string) {
@@ -140,7 +145,12 @@ export class UpNextService {
   }
 
   async findAllEmployees() {
-    return await this.prismaService.usuariosAdm.findMany();
+    return await this.prismaService.usuariosAdm.findMany({
+      orderBy: {
+        codUsuario: 'desc',
+      },
+      take: 5,
+    });
   }
 
   async findEmployeeEmail(email: string) {
