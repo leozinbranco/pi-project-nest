@@ -81,11 +81,10 @@ export class UploadController {
             let diffEnterprise;
 
             // Realiza a validação de cpf e cnpj
-            console.log('>>ss>', row);
-            console.log('>>s>', row[7]);
-            console.log('>s>>', row[8]);
             if (
-              !this.validationDocument.isCnpjValid(row[8].replace(/.\/\-/g, ''))
+              !this.validationDocument.isCnpjValid(
+                row[8].replace(/[.\-\r\n]/, ''),
+              )
             ) {
               throw new InternalServerErrorException(
                 'O CNPJ: ' + row[8] + ' é inválido!',
