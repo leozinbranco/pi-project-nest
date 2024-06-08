@@ -32,7 +32,7 @@ export class UploadService {
       data: {
         ...upload,
         cnpjClienteOs: upload.cnpjClienteOs.replace(/.\/\-/g, ''),
-        documento: upload.documento.replace(/-./g, ''),
+        documento: upload.documento.replace(/.\/\-/g, ''),
         dataUltimaModOs:
           upload.dataUltimaModOs === '' ? null : upload.dataUltimaModOs,
         dataUltimoUpload: new Date(),

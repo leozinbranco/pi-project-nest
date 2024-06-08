@@ -57,7 +57,7 @@ export class UploadController {
               ) {
                 rows.push([]);
               } else {
-                rows.push(index.split(/[,\;\t\|\n]+/));
+                rows.push(index.split(/[;\t\|\n]+/));
               }
             }
           });
@@ -66,7 +66,7 @@ export class UploadController {
       .on('end', async () => {
         try {
           rows = rows.slice(1);
-          if (!rows) {
+          if (rows[0].length <= 1) {
             throw new InternalServerErrorException(
               'O delimitador do arquivo está diferente de ponto e vírgula! (;)',
             );
@@ -80,11 +80,25 @@ export class UploadController {
             }
             let diffEnterprise;
 
+            /* transformar a row e array para objeto */
+            if (codCompany !== null) {
+              diffEnterprise = await this.uploadService.findEnterpriseById(
+                codCompany,
+                row[8],
+              );
+            }
+            if (diffEnterprise) {
+              throw new InternalServerErrorException(
+                `Não é possível realizar o upload de O.S de empresa distintas. CNPJ: ${row[8]}`,
+              );
+            }
+
             // Realiza a validação de cpf e cnpj
             if (
               !this.validationDocument.isCnpjValid(
                 row[8].replace(/[.\-\r\n]/, ''),
-              )
+              ) &&
+              diffEnterprise
             ) {
               throw new InternalServerErrorException(
                 'O CNPJ: ' + row[8] + ' é inválido!',
@@ -99,24 +113,12 @@ export class UploadController {
                 : this.validationDocument.isCnpjValid(
                     row[11].replace(/.\/\-/g, ''),
                   );
-            if (!documentClient) {
+            if (!documentClient && diffEnterprise) {
               throw new InternalServerErrorException(
                 'O CPF: ' + row[11] + ' é inválido!',
               );
             }
 
-            /* transformar a row e array para objeto */
-            if (codCompany !== null) {
-              diffEnterprise = await this.uploadService.findEnterpriseById(
-                codCompany,
-                row[8],
-              );
-            }
-            if (diffEnterprise) {
-              throw new InternalServerErrorException(
-                `Não é possível realizar o upload de O.S de empresa distintas. CNPJ: ${row[8]}`,
-              );
-            }
             return this.uploadService.treatFile(this.isValidRow(row));
           });
           await Promise.all(enterprise);
@@ -170,7 +172,7 @@ export class UploadController {
       descricaoAjustesOs: row[6],
       observacaoOs: row[7],
       cnpjClienteOs: row[8],
-      telContatoOs: row[9],
+      telContatoOs: String(row[9]).replace(/\s+/g, '').replace(/-/g, ''),
       emailContatoOs: '',
       atributoValidadorOs: row[10],
       documento: row[11].replace(/\r$/, ''),

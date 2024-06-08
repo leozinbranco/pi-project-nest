@@ -1,0 +1,6 @@
+id_servico,status,descricao_bike,data_inicio,data_fim,reparos,observacao,CNPJ,celular,Atributo_Validador,Documento
+1,Finalizado,Speed Branca Carbono,2024-05-01,2024-05-01,Troca de Corrente,Boa,81344528000144,19 99287-1844,S,19991753149
+2,Finalizado,Speed Branca Carbono,2024-05-01,2024-05-01,Troca de Corrente,Boa,81344528000144,19 99287-1844,S,19991753149
+3,Finalizado,Speed Branca Carbono,2024-05-01,2024-05-01,Troca de Corrente,Boa,81344528000144,19 99287-1844,S,19991753149
+4,Finalizado,Speed Branca Carbono,2024-05-01,2024-05-01,Troca de Corrente,Boa,81344528000144,19 99287-1844,S,19991753149
+5,Finalizado,BMX,2024-06-04,2024-06-06,Lubrificação,Boa,81344528000144,19 99287-1844,S,1998657521

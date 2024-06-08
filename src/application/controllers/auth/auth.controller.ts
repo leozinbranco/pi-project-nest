@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UnauthorizedException } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { AuthService } from '../../../adapters/services/auth.service';
 import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserAdm, AdminLoginDto } from './auth.types';
