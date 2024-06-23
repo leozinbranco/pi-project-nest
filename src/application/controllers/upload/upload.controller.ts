@@ -114,7 +114,7 @@ export class UploadController {
                   : this.validationDocument.isCnpjValid(
                       row[11].replace(/.\/\-/g, ''),
                     );
-              if (documentClient && diffEnterprise) {
+              if (documentClient && !diffEnterprise) {
                 throw new InternalServerErrorException(
                   'O CPF: ' + row[11] + ' é inválido!',
                 );
