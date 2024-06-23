@@ -94,29 +94,31 @@ export class UploadController {
             }
 
             // Realiza a validação de cpf e cnpj
-            if (
-              !this.validationDocument.isCnpjValid(
-                row[8].replace(/[.\-\r\n]/, ''),
-              ) &&
-              diffEnterprise
-            ) {
-              throw new InternalServerErrorException(
-                'O CNPJ: ' + row[8] + ' é inválido!',
-              );
-            }
+            if (diffEnterprise !== undefined) {
+              if (
+                !this.validationDocument.isCnpjValid(
+                  row[8].replace(/[.\-\r\n]/, ''),
+                ) &&
+                diffEnterprise
+              ) {
+                throw new InternalServerErrorException(
+                  'O CNPJ: ' + row[8] + ' é inválido!',
+                );
+              }
 
-            const documentClient =
-              row[11].replace(/.\/\-/g, '').length === 11
-                ? this.validationDocument.isCpfValid(
-                    row[11].replace(/.\/\-/g, ''),
-                  )
-                : this.validationDocument.isCnpjValid(
-                    row[11].replace(/.\/\-/g, ''),
-                  );
-            if (documentClient && diffEnterprise) {
-              throw new InternalServerErrorException(
-                'O CPF: ' + row[11] + ' é inválido!',
-              );
+              const documentClient =
+                row[11].replace(/.\/\-/g, '').length === 11
+                  ? this.validationDocument.isCpfValid(
+                      row[11].replace(/.\/\-/g, ''),
+                    )
+                  : this.validationDocument.isCnpjValid(
+                      row[11].replace(/.\/\-/g, ''),
+                    );
+              if (documentClient && diffEnterprise) {
+                throw new InternalServerErrorException(
+                  'O CPF: ' + row[11] + ' é inválido!',
+                );
+              }
             }
 
             return this.uploadService.treatFile(this.isValidRow(row));
