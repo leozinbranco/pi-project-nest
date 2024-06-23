@@ -94,7 +94,7 @@ export class UploadController {
             }
 
             // Realiza a validação de cpf e cnpj
-            if (diffEnterprise !== undefined) {
+            if (diffEnterprise !== null) {
               if (
                 !this.validationDocument.isCnpjValid(
                   row[8].replace(/[.\-\r\n]/, ''),

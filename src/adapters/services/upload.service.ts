@@ -61,6 +61,7 @@ export class UploadService {
     if (enterprise.cnpjEmpresa !== cnpj) {
       return cnpj;
     }
+    return null;
   }
 
   /* realiza a busca de todas as O.S com o codigo da empresa */
