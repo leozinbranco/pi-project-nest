@@ -113,7 +113,7 @@ export class UploadController {
                 : this.validationDocument.isCnpjValid(
                     row[11].replace(/.\/\-/g, ''),
                   );
-            if (!documentClient && diffEnterprise) {
+            if (documentClient && diffEnterprise) {
               throw new InternalServerErrorException(
                 'O CPF: ' + row[11] + ' é inválido!',
               );
@@ -233,7 +233,11 @@ export class UploadController {
         'Data vazia ou formato incorreto. Informe no formato AAAA-MM-DD!',
       );
     }
-    if (pattern.test(newOs.dataUltimaModOs.toString())) {
+
+    if (
+      pattern.test(newOs.dataUltimaModOs.toString()) ||
+      newOs.dataAberturaOs.toString().length === 0
+    ) {
       throw new InternalServerErrorException(
         'Data vazia ou formato incorreto. Informe no formato AAAA-MM-DD!',
       );

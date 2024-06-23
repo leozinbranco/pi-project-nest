@@ -1,0 +1,6 @@
+id_servico;status;Tipo;descricao_bike;data_inicio;data_fim;reparos;observacao;CNPJ;celular;Atributo_Validador;Documento
+1;Em Andamento;Bicicleta;Trocar quadro;2024-06-09;;Reforma aro;levemente queimada;24997455000191;19992871844;S;19999666777
+2;Aguardando Pagamento;Bicicleta;Banco torro;2024-06-09;;Troca de Corrente;precária ;24997455000191;19992871845;S;19989767336
+3;Em Andamento;Bicicleta;Banco torro;2024-06-09;;Reforma aro;precária ;24997455000191;19992871846;S;19989767336
+4;Finalizado;Bicicleta;Colocar óleo na corrente;2024-06-05;2024-06-10;Sangria de Freios;Excelente;24997455000191;19992871847;S;19976542389
+5;Em Andamento;Bicicleta;Pintar quadro MTB em alumínio;2024-06-15;;Reforma aro;Excelente;24997455000191;19992871848;S;19978564323
