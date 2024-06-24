@@ -5,6 +5,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { appEnv } from './shared/app-env';
 
 async function bootstrap() {
+  console.log('PORTA SELECIONADA: ', appEnv.node.port);
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
   // const isProduction = process.env.NODE_ENV === 'production';
